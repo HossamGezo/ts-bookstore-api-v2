@@ -1,27 +1,27 @@
-// - - - - - - - - - - Import Libraries
-// *** Http
-import {createServer} from "http";
+// --- Libraries
+import express from "express";
+import {config} from "dotenv";
 
-// - - - - - - - - - - Dummy Data
-// *** Books
-const books = [
-  {id: 1, name: "book 1"},
-  {id: 2, name: "book 2"},
-];
+// --- Local Files
+import connectToDB from "./config/db.js";
 
-// - - - - - - - - - - App
-// *** Init App
-const app = createServer((req, res) => {
-  if (req.url === "/") {
-    res.write("Hello NodeJS");
-    res.end();
-  }
-  if (req.url === "/api/books") {
-    res.write(JSON.stringify(books));
-    res.end();
-  }
-});
+// --- Load environment variables from .env file
+config();
 
-// *** Server
-const Port = 5001;
-app.listen(Port, () => console.log(`Server Is Running On Port ${Port}`));
+// --- Init App
+const app = express();
+
+// --- Middlewares
+app.use(express.json());
+
+// --- Server
+const PORT = process.env.PORT || 8000;
+connectToDB().then(() =>
+  app.listen(PORT, () =>
+    console.log(
+      `Server is running in ${
+        process.env.NODE_ENV || "development"
+      } mode on port ${PORT} `
+    )
+  )
+);
