@@ -4,7 +4,9 @@
   "description": "Second iteration practicing Clean Architecture",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon dist/index.js"
+    "start": "nodemon dist/index.js",
+    "seed:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -seed",
+    "delete:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -delete"
   },
   "repository": {
     "type": "git",
