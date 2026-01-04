@@ -12,10 +12,9 @@ config();
 // --- Connect to DB
 connectToDB();
 
-// --- Seeding authors to database
+// --- Seeding authors to database --- npm run seed:authors
 const seedAuthors = async () => {
   try {
-    await Author.deleteMany();
     await Author.insertMany(authors);
     console.log("Authors has been seeded");
     process.exit(0);
@@ -25,7 +24,7 @@ const seedAuthors = async () => {
   }
 };
 
-// --- Removing authors from database
+// --- Deleting authors from database --- npm run delete:authors
 const deleteAuthors = async () => {
   try {
     await Author.deleteMany();
@@ -37,12 +36,36 @@ const deleteAuthors = async () => {
   }
 };
 
+/**
+ * =============================
+ *  Process.argv Explanation
+ * =============================
+ *
+ * argv stands for "Argument Vector" – an array of command-line arguments.
+ *
+ * Original Node usage:
+ *   node src/seeders/authors.seeder.ts -seed
+ *   process.argv = [
+ *     "node",                          // argv[0] → Node runtime
+ *     "src/seeders/authors.seeder.ts", // argv[1] → executed file
+ *     "-seed"                          // argv[2] → first argument
+ *   ]
+ *
+ * Using npm scripts (TypeScript + ts-node):
+ *   npm run seed:authors
+ *   npm executes: node --loader ts-node/esm src/seeders/authors.seeder.ts -seed
+ *   argv[2] still contains "-seed"
+ *
+ * Same for delete:
+ *   npm run delete:authors → argv[2] = "-delete"
+ */
+
 // --- Excustion functions
 if (process.argv[2] === "-seed") {
-  // args.includes("-seed")
+  // argv.includes("-seed")
   seedAuthors();
 } else if (process.argv[2] === "-delete") {
-  // args.includes("-delete")
+  // argv.includes("-delete")
   deleteAuthors();
 } else {
   console.error("Please run with '-seed' | '-delete'");
