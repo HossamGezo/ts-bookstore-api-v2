@@ -33,21 +33,21 @@ const MongoAuthorSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
+      required: [true, "First Name is required"],
       trim: true,
       minLength: [3, "firstName must be at least 3 characters"],
       maxLength: [20, "firstName must not exceed 20 characters"],
     },
     lastName: {
       type: String,
-      required: true,
+      required: [true, "Last Name is required"],
       trim: true,
       minLength: [3, "lastName must be at least 3 characters"],
       maxLength: [20, "lastName must not exceed 20 characters"],
     },
     nationality: {
       type: String,
-      required: true,
+      required: [true, "Nationality is required"],
       trim: true,
       minLength: [3, "nationality must be at least 3 characters"],
       maxLength: [20, "nationality must not exceed 20 characters"],

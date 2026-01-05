@@ -2,9 +2,11 @@
 import {config} from "dotenv";
 
 // --- Local Files
-import Author from "../models/Author.js";
-import {authors} from "../data/authors.data.js";
 import connectToDB from "../config/db.js";
+import Author from "../models/Author.js";
+
+// --- Local Data
+import {authors} from "../data/authors.data.js";
 
 // --- Load environment variables from .env file
 config();
@@ -12,26 +14,34 @@ config();
 // --- Connect to DB
 connectToDB();
 
-// --- Seeding authors to database --- npm run seed:authors
+// --- Seeding authors data to database --- npm run seed:authors
 const seedAuthors = async () => {
   try {
+    // --- Delete authors
+    await Author.deleteMany();
+
+    // --- Seed authors Logic
     await Author.insertMany(authors);
-    console.log("Authors has been seeded");
+    console.log("Authors data has been seeded to database");
     process.exit(0);
   } catch (error) {
-    console.error("Fail to insert authors to database", error);
+    const message =
+      error instanceof Error ? error.message : "Something Went Wrong!";
+    console.error("Fail to insert authors data to database", message);
     process.exit(1);
   }
 };
 
-// --- Deleting authors from database --- npm run delete:authors
+// --- Deleting authors data from database --- npm run delete:authors
 const deleteAuthors = async () => {
   try {
     await Author.deleteMany();
-    console.log("Authors has been deleted");
+    console.log("Authors data has been deleted");
     process.exit(0);
   } catch (error) {
-    console.error("Fail to delete authors from database", error);
+    const message =
+      error instanceof Error ? error.message : "Something Went Wrong!";
+    console.error("Fail to delete authors data from database", message);
     process.exit(1);
   }
 };
@@ -60,7 +70,7 @@ const deleteAuthors = async () => {
  *   npm run delete:authors → argv[2] = "-delete"
  */
 
-// --- Excustion functions
+// --- Execute script based on CLI argument
 if (process.argv[2] === "-seed") {
   // argv.includes("-seed")
   seedAuthors();
