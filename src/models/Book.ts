@@ -8,11 +8,16 @@ const ZodBookSchema = z.object({
     .trim()
     .min(5, {message: "Book title must be at least 5 characters"})
     .max(100, {message: "Book title is too long"}),
-  author: z.string().length(24, {message: "Invalid Author ID"}),
+  authorName: z
+    .string()
+    .trim()
+    .min(3, {message: "Author Name must be at least 3 characters"})
+    .max(20, {message: "Author Name must not exceed 20 characters"}),
+  authorId: z.string().length(24, {message: "Invalid Author ID"}),
   description: z
     .string()
     .trim()
-    .min(20, {message: "Book description must be at least 20 characters"})
+    .min(10, {message: "Book description must be at least 20 characters"})
     .max(500, {message: "Description can be up to 500 characters"}),
   price: z.number().min(0, {message: "Price cannot be less than 0"}),
   cover: z.enum(["soft cover", "hard cover"], {
@@ -38,7 +43,14 @@ const MongoBookSchema = new mongoose.Schema(
       maxLength: [100, "Book title is too long"],
       index: true,
     },
-    author: {
+    authorName: {
+      type: String,
+      required: [true, "Author Name is required"],
+      trim: true,
+      minLength: [3, "Author Name must be at least 3 characters"],
+      maxLength: [20, "Author Name must not exceed 20 characters"],
+    },
+    authorId: {
       type: mongoose.Schema.Types.ObjectId,
       required: [true, "Author is required"],
       ref: "Author",
@@ -47,7 +59,7 @@ const MongoBookSchema = new mongoose.Schema(
       type: String,
       required: [true, "Description is required"],
       trim: true,
-      minLength: [20, "Book description must be at least 20 characters"],
+      minLength: [10, "Book description must be at least 20 characters"],
       maxLength: [500, "Description can be up to 500 characters"],
     },
     price: {
