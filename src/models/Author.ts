@@ -37,6 +37,7 @@ const MongoAuthorSchema = new mongoose.Schema(
       trim: true,
       minLength: [3, "firstName must be at least 3 characters"],
       maxLength: [20, "firstName must not exceed 20 characters"],
+      index: true,
     },
     lastName: {
       type: String,
