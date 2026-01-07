@@ -11,16 +11,16 @@ import {
 } from "../controllers/authors.controller.js";
 
 // --- Router
-const router = express.Router();
+const AuthorRouter = express.Router();
 
 // --- /api/authors
-router.route("/").get(getAllAuthors).post(createNewAuthor);
+AuthorRouter.route("/").get(getAllAuthors).post(createNewAuthor);
 
 // --- /api/authors/:id
-router
+AuthorRouter
   .route("/:id")
   .get(getAuthorById)
   .put(updateAuthorById)
   .delete(deleteAuthorById);
 
-export default router;
+export default AuthorRouter;
