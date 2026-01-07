@@ -13,11 +13,20 @@ import Author, {validateAuthor} from "../models/Author.js";
  * @method GET
  * @access public
  */
-export const getAllAuthors = asyncHandler(async (_: Request, res: Response) => {
-  const authors = await Author.find();
-  res.status(200).json(authors);
-  return;
-});
+export const getAllAuthors = asyncHandler(
+  async (req: Request, res: Response) => {
+    // --- Pagination Logic
+    const {pageNumber} = req.query;
+    const page = parseInt(pageNumber as string) || 1;
+    const authorsPerPage = 2;
+    const skip = (page - 1) * authorsPerPage;
+    const authors = await Author.find().skip(skip).limit(authorsPerPage);
+
+    // --- Response
+    res.status(200).json(authors);
+    return;
+  }
+);
 
 /**
  * @desc Get Author By Id
@@ -29,9 +38,11 @@ export const getAuthorById = asyncHandler(
   async (req: Request, res: Response) => {
     const author = await Author.findById(req.params.id);
     if (!author) {
-      res.status(404).json({message: "This author isn't exist"});
+      res.status(404).json({message: "Author not found"});
       return;
     }
+
+    // --- Response
     res.status(200).json(author);
     return;
   }
@@ -52,7 +63,7 @@ export const createNewAuthor = asyncHandler(
       return;
     }
 
-    // --- Create New Author
+    // --- Mongo Validation
     const newAuthor = new Author(req.body);
 
     // --- Inject Author to database
@@ -75,7 +86,7 @@ export const updateAuthorById = asyncHandler(
     // --- isExist Logic
     const isExist = await Author.findById(req.params.id);
     if (!isExist) {
-      res.status(404).json({message: "Author Not Found"});
+      res.status(404).json({message: "Author not found"});
       return;
     }
 
@@ -86,7 +97,7 @@ export const updateAuthorById = asyncHandler(
       return;
     }
 
-    // --- Update Author
+    // --- Update Author Logic
     const updatedAuthor = await Author.findByIdAndUpdate(
       req.params.id,
       {$set: req.body},
@@ -109,12 +120,14 @@ export const deleteAuthorById = asyncHandler(
     // --- isExist Logic
     const isExist = await Author.findById(req.params.id);
     if (!isExist) {
-      res.status(404).json({message: "Author Not Found"});
+      res.status(404).json({message: "Author not found"});
       return;
     }
 
     // --- Delete author from database
     await Author.findByIdAndDelete(req.params.id);
+
+    // --- Response
     res.status(200).json({message: "Author has been deleted"});
     return;
   }

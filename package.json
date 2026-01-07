@@ -6,7 +6,9 @@
   "scripts": {
     "start": "nodemon dist/index.js",
     "seed:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -seed",
-    "delete:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -delete"
+    "delete:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -delete",
+    "seed:books": "node --loader ts-node/esm src/seeders/books.seeder.ts -seed",
+    "delete:books": "node --loader ts-node/esm src/seeders/books.seeder.ts -delete"
   },
   "repository": {
     "type": "git",

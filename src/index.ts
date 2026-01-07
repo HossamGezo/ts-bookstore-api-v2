@@ -5,8 +5,9 @@ import {config} from "dotenv";
 // --- Database
 import connectToDB from "./config/db.js";
 
-// --- Routers Files
+// --- Router Files
 import AuthorRouter from "./routes/authors.routes.js";
+import BookRouter from "./routes/books.routes.js";
 
 // --- Load environment variables from .env file
 config();
@@ -19,6 +20,7 @@ app.use(express.json());
 
 // --- Routers
 app.use("/api/authors", AuthorRouter);
+app.use("/api/books", BookRouter);
 
 // --- Server
 const PORT = process.env.PORT || 8000;
