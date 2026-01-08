@@ -17,8 +17,7 @@ const AuthorRouter = express.Router();
 AuthorRouter.route("/").get(getAllAuthors).post(createNewAuthor);
 
 // --- /api/authors/:id
-AuthorRouter
-  .route("/:id")
+AuthorRouter.route("/:id")
   .get(getAuthorById)
   .put(updateAuthorById)
   .delete(deleteAuthorById);

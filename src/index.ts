@@ -1,9 +1,15 @@
 // --- Libraries
 import express from "express";
 import {config} from "dotenv";
+import helmet from "helmet";
+import cors from "cors";
 
 // --- Database
 import connectToDB from "./config/db.js";
+
+// --- Middleware Files
+import logger from "./middlewares/logger.js";
+import {errorHandler, notFound} from "./middlewares/error.js";
 
 // --- Router Files
 import AuthorRouter from "./routes/authors.routes.js";
@@ -17,10 +23,25 @@ const app = express();
 
 // --- Middlewares
 app.use(express.json());
+app.use(logger);
+
+// --- Helmet
+app.use(helmet);
+
+// --- Cors
+app.use(
+  cors({
+    origin: process.env.CLINT_URI,
+  })
+);
 
 // --- Routers
 app.use("/api/authors", AuthorRouter);
 app.use("/api/books", BookRouter);
+
+// --- Error Middlewares
+app.use(notFound);
+app.use(errorHandler);
 
 // --- Server
 const PORT = process.env.PORT || 8000;
