@@ -2,30 +2,32 @@ import mongoose from "mongoose";
 import {z} from "zod";
 
 // --- Zod Book Schema
-const ZodBookSchema = z.object({
-  title: z
-    .string()
-    .trim()
-    .min(5, {message: "Book title must be at least 5 characters"})
-    .max(100, {message: "Book title is too long"}),
-  authorName: z
-    .string()
-    .trim()
-    .min(3, {message: "Author Name must be at least 3 characters"})
-    .max(20, {message: "Author Name must not exceed 20 characters"}),
-  authorId: z.string().length(24, {message: "Invalid Author ID"}),
-  description: z
-    .string()
-    .trim()
-    .min(10, {message: "Book description must be at least 20 characters"})
-    .max(500, {message: "Description can be up to 500 characters"}),
-  price: z.number().min(0, {message: "Price cannot be less than 0"}),
-  cover: z.enum(["soft cover", "hard cover"], {
-    message: "Only 'soft cover' or 'hard cover' are supported",
-  }),
-});
+const ZodBookSchema = z
+  .object({
+    title: z
+      .string()
+      .trim()
+      .min(5, {message: "Book title must be at least 5 characters"})
+      .max(100, {message: "Book title is too long"}),
+    authorName: z
+      .string()
+      .trim()
+      .min(3, {message: "Author Name must be at least 3 characters"})
+      .max(20, {message: "Author Name must not exceed 20 characters"}),
+    authorId: z.string().length(24, {message: "Invalid Author ID"}),
+    description: z
+      .string()
+      .trim()
+      .min(10, {message: "Book description must be at least 20 characters"})
+      .max(500, {message: "Description can be up to 500 characters"}),
+    price: z.number().min(0, {message: "Price cannot be less than 0"}),
+    cover: z.enum(["soft cover", "hard cover"], {
+      message: "Only 'soft cover' or 'hard cover' are supported",
+    }),
+  })
+  .strict();
 
-export type ZodBookSchemaProps = z.infer<typeof ZodBookSchema>;
+export type ZodBookProps = z.infer<typeof ZodBookSchema>;
 
 // --- Validate Book Function
 export const validateBook = (obj: unknown) => {

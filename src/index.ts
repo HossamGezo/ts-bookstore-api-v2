@@ -4,6 +4,9 @@ import {config} from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 
+// --- Load environment variables from .env file
+config();
+
 // --- Database
 import connectToDB from "./config/db.js";
 
@@ -15,9 +18,6 @@ import {errorHandler, notFound} from "./middlewares/error.js";
 import AuthorRouter from "./routes/authors.routes.js";
 import BookRouter from "./routes/books.routes.js";
 
-// --- Load environment variables from .env file
-config();
-
 // --- Init App
 const app = express();
 
@@ -26,12 +26,13 @@ app.use(express.json());
 app.use(logger);
 
 // --- Helmet
-app.use(helmet);
+app.use(helmet());
 
 // --- Cors
 app.use(
   cors({
-    origin: process.env.CLINT_URI,
+    origin: process.env.CLIENT_URL,
+    methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
 
