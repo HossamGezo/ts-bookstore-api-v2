@@ -8,9 +8,9 @@ export const notFound = (req: Request, res: Response, next: NextFunction) => {
 
 export const errorHandler = (
   err: unknown,
-  _: Request,
+  _req: Request,
   res: Response,
-  __: NextFunction
+  _next: NextFunction
 ) => {
   const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
   const message = err instanceof Error ? err.message : "Something went wrong!";
