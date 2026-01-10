@@ -68,11 +68,13 @@ const ZodUserUpdateSchema = z
       .string()
       .trim()
       .min(3, {message: "UserName must be at least 3 characters"})
-      .max(20, {message: "UserName must not exceed 20 characters"}),
+      .max(20, {message: "UserName must not exceed 20 characters"})
+      .optional(),
     email: z
       .string()
       .trim()
-      .regex(/^\S+@\S+\.\S+$/, {message: "Invalid Email Address"}),
+      .regex(/^\S+@\S+\.\S+$/, {message: "Invalid Email Address"})
+      .optional(),
     password: z
       .string()
       .trim()
@@ -88,18 +90,36 @@ const ZodUserUpdateSchema = z
       .regex(/\W/, {
         message: "Password must contain at least one special character",
       })
-      .min(8, {message: "Password must be at least 8 characters"}),
+      .min(8, {message: "Password must be at least 8 characters"})
+      .optional(),
   })
   .strict();
 export type ZodUserUpdateProps = z.infer<typeof ZodUserUpdateSchema>;
 
-// --- Zod Validation Functions
+// --- Zod User Change Password Schema
+const ZodUserChangePasswordSchema = z.object({
+  password: z
+    .string()
+    .trim()
+    .regex(/[A-Z]/, {
+      message: "Password must contain at least one uppercase letter",
+    })
+    .regex(/[a-z]/, {
+      message: "Password must contain at least one lowercase letter",
+    })
+    .regex(/[0-9]/, {
+      message: "Password must contain at least one digit",
+    })
+    .regex(/\W/, {
+      message: "Password must contain at least one special character",
+    })
+    .min(8, {message: "Password must be at least 8 characters"}),
+});
+export type ZodUserChangePasswordProps = z.infer<
+  typeof ZodUserChangePasswordSchema
+>;
 
-// - Validate Login Function
-export const validateLogin = (obj: unknown) => {
-  const validate = ZodUserLoginSchema.safeParse(obj);
-  return validate;
-};
+// --- Zod Validation Functions
 
 // - Validate Register Function
 export const validateRegister = (obj: unknown) => {
@@ -107,9 +127,21 @@ export const validateRegister = (obj: unknown) => {
   return validate;
 };
 
+// - Validate Login Function
+export const validateLogin = (obj: unknown) => {
+  const validate = ZodUserLoginSchema.safeParse(obj);
+  return validate;
+};
+
 // - Validate Update Function
 export const validateUpdate = (obj: unknown) => {
   const validate = ZodUserUpdateSchema.safeParse(obj);
+  return validate;
+};
+
+// - Validate Change Password
+export const validateChangePassword = (obj: unknown) => {
+  const validate = ZodUserChangePasswordSchema.safeParse(obj);
   return validate;
 };
 
@@ -126,6 +158,7 @@ const MongoUserSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      unique: true,
       trim: true,
       match: [/^\S+@\S+\.\S+$/, "Invalid Email Address"],
     },
