@@ -4,11 +4,15 @@
   "description": "Second iteration practicing Clean Architecture",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon dist/index.js",
-    "seed:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -seed",
-    "delete:authors": "node --loader ts-node/esm src/seeders/authors.seeder.ts -delete",
-    "seed:books": "node --loader ts-node/esm src/seeders/books.seeder.ts -seed",
-    "delete:books": "node --loader ts-node/esm src/seeders/books.seeder.ts -delete"
+    "start": "node dist/index.js",
+    "dev": "nodemon --exec tsx src/index.ts",
+    "build": "tsc",
+    "seed:authors": "tsx src/seeders/authors.seeder.ts -seed",
+    "delete:authors": "tsx src/seeders/authors.seeder.ts -delete",
+    "seed:books": "tsx src/seeders/books.seeder.ts -seed",
+    "delete:books": "tsx src/seeders/books.seeder.ts -delete",
+    "seed:users": "tsx src/seeders/users.seeder.ts -seed",
+    "delete:users": "tsx src/seeders/users.seeder.ts -delete"
   },
   "repository": {
     "type": "git",
@@ -32,6 +36,7 @@
     "@types/nodemailer": "^7.0.4",
     "nodemon": "^3.1.11",
     "ts-node": "^10.9.2",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
   "dependencies": {
