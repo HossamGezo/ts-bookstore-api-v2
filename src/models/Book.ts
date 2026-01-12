@@ -22,9 +22,12 @@ const ZodBookSchema = z
       .min(10, {message: "Book description must be at least 20 characters"})
       .max(500, {message: "Description can be up to 500 characters"}),
     price: z.number().min(0, {message: "Price cannot be less than 0"}),
-    cover: z.enum(["soft cover", "hard cover"], {
-      message: "Only 'soft cover' or 'hard cover' are supported",
-    }),
+    cover: z
+      .string()
+      .transform((val) => val.toLocaleLowerCase())
+      .refine((val) => ["soft cover", "hard cover"].includes(val), {
+        message: "Only 'soft cover' or 'hard cover' are supported",
+      }),
   })
   .strict();
 
@@ -42,7 +45,7 @@ const MongoBookSchema = new mongoose.Schema(
       type: String,
       required: [true, "Title is required"],
       trim: true,
-      minLength: [5, "Book title must be at least 5 characters"],
+      minLength: [3, "Book title must be at least 3 characters"],
       maxLength: [100, "Book title is too long"],
       index: true,
     },
@@ -72,7 +75,7 @@ const MongoBookSchema = new mongoose.Schema(
     },
     cover: {
       type: String,
-      required: true,
+      required: [true, "Cover is Required"],
       lowercase: true,
       enum: {
         values: ["soft cover", "hard cover"],
