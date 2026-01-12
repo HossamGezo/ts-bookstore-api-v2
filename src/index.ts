@@ -12,7 +12,7 @@ import connectToDB from "./config/db.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.js";
-import {errorHandler, notFound} from "./middlewares/error.js";
+import {errorHandler, notFound} from "./middlewares/errors.js";
 
 // --- Router Files
 import AuthorRouter from "./routes/authors.routes.js";
@@ -31,7 +31,7 @@ app.use(helmet());
 // --- Cors
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL, // Only That Domain Can Take Services From API
     methods: ["GET", "POST", "PUT", "DELETE"],
   })
 );
