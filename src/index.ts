@@ -11,8 +11,8 @@ config();
 import connectToDB from "./config/db.js";
 
 // --- Middleware Files
-import logger from "./middlewares/logger.js";
-import {errorHandler, notFound} from "./middlewares/errors.js";
+import logger from "./middlewares/logger.middleware.js";
+import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
 
 // --- Router Files
 import AuthorRouter from "./routes/authors.routes.js";
