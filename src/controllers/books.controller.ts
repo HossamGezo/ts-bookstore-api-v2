@@ -5,6 +5,8 @@ import asyncHandler from "express-async-handler";
 // --- Model
 import Book, {validateBook, type ZodBookProps} from "../models/Book.js";
 
+// --- HTTP Methods (Verbs)
+
 /**
  * @desc Get All Books
  * @route /api/books

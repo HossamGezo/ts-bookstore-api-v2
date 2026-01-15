@@ -17,6 +17,7 @@ import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
 // --- Router Files
 import AuthorRouter from "./routes/authors.routes.js";
 import BookRouter from "./routes/books.routes.js";
+import AuthRouter from "./routes/auth.routes.js";
 
 // --- Init App
 const app = express();
@@ -39,6 +40,7 @@ app.use(
 // --- Routers
 app.use("/api/authors", AuthorRouter);
 app.use("/api/books", BookRouter);
+app.use("/api/auth", AuthRouter);
 
 // --- Error Middlewares
 app.use(notFound);
