@@ -1,15 +1,15 @@
 // --- Libraries
 import {config} from "dotenv";
 
-// --- Local Files
-import connectToDB from "../config/db.js";
-import Author from "../models/Author.js";
+// --- Load environment variables from .env file
+config();
 
 // --- Local Data
 import {authors} from "../data/authors.data.js";
 
-// --- Load environment variables from .env file
-config();
+// --- Local Files
+import connectToDB from "../config/db.js";
+import Author from "../models/Author.js";
 
 // --- Connect to DB
 connectToDB();
@@ -17,7 +17,7 @@ connectToDB();
 // --- Seeding authors data to database --- npm run seed:authors
 const seedAuthors = async () => {
   try {
-    // --- Delete authors
+    // --- Delete current authors
     await Author.deleteMany();
 
     // --- Seed authors Logic

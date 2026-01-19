@@ -1,27 +1,30 @@
+// --- Libraries
 import mongoose from "mongoose";
 import {z} from "zod";
 
 // --- Zod Author Schema
-const ZodAuthorSchema = z.object({
-  firstName: z
-    .string()
-    .trim()
-    .min(3, {message: "firstName must be at least 3 characters"})
-    .max(20, {message: "firstName must not exceed 20 characters"}),
-  lastName: z
-    .string()
-    .trim()
-    .min(3, {message: "lastName must be at least 3 characters"})
-    .max(20, {message: "lastName must not exceed 20 characters"}),
-  nationality: z
-    .string()
-    .trim()
-    .min(3, {message: "nationality must be at least 3 characters"})
-    .max(20, {message: "nationality must not exceed 20 characters"}),
-  image: z.string().default("default-image.png"),
-});
+const ZodAuthorSchema = z
+  .object({
+    firstName: z
+      .string()
+      .trim()
+      .min(3, {message: "firstName must be at least 3 characters"})
+      .max(20, {message: "firstName must not exceed 20 characters"}),
+    lastName: z
+      .string()
+      .trim()
+      .min(3, {message: "lastName must be at least 3 characters"})
+      .max(20, {message: "lastName must not exceed 20 characters"}),
+    nationality: z
+      .string()
+      .trim()
+      .min(3, {message: "nationality must be at least 3 characters"})
+      .max(20, {message: "nationality must not exceed 20 characters"}),
+    image: z.string().default("default-image.png"),
+  })
+  .strict();
 
-export type ZodAuthorSchemaProps = z.infer<typeof ZodAuthorSchema>;
+export type ZodAuthorProps = z.infer<typeof ZodAuthorSchema>;
 
 // --- Zod Validate Function
 export const validateAuthor = (obj: unknown) => {

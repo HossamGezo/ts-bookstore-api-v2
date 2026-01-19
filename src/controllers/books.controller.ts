@@ -2,8 +2,10 @@
 import type {Request, Response} from "express";
 import asyncHandler from "express-async-handler";
 
-// --- Models
-import Book, {validateBook} from "../models/Book.js";
+// --- Model
+import Book, {validateBook, type ZodBookProps} from "../models/Book.js";
+
+// --- HTTP Methods (Verbs)
 
 /**
  * @desc Get All Books
@@ -16,7 +18,7 @@ export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
   let query = {};
   const {minPrice, maxPrice} = req.query;
   if (minPrice && maxPrice) {
-    query = {price: {$gte: minPrice, $lte: maxPrice}};
+    query = {price: {$gte: Number(minPrice), $lte: Number(maxPrice)}};
   }
 
   // --- Get All Books
@@ -70,7 +72,8 @@ export const createNewBook = asyncHandler(
     }
 
     // --- Mongo Validation
-    const newBook = new Book(req.body);
+    const booksData: ZodBookProps = validate.data;
+    const newBook = new Book(booksData);
 
     // --- Inject Book to database
     const result = await newBook.save();
@@ -104,9 +107,10 @@ export const updateBookById = asyncHandler(
     }
 
     // --- Update Book Logic
+    const booksData: ZodBookProps = validate.data;
     const updatedBook = await Book.findByIdAndUpdate(
       req.params.id,
-      {$set: req.body},
+      {$set: booksData},
       {new: true}
     );
 

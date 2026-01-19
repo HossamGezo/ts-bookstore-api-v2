@@ -2,8 +2,8 @@
 import type {Request, Response} from "express";
 import asyncHandler from "express-async-handler";
 
-// --- Models
-import Author, {validateAuthor} from "../models/Author.js";
+// --- Model
+import Author, {validateAuthor, type ZodAuthorProps} from "../models/Author.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -64,7 +64,8 @@ export const createNewAuthor = asyncHandler(
     }
 
     // --- Mongo Validation
-    const newAuthor = new Author(req.body);
+    const authorData: ZodAuthorProps = validate.data;
+    const newAuthor = new Author(authorData);
 
     // --- Inject Author to database
     const result = await newAuthor.save();
@@ -98,9 +99,10 @@ export const updateAuthorById = asyncHandler(
     }
 
     // --- Update Author Logic
+    const authorData: ZodAuthorProps = validate.data;
     const updatedAuthor = await Author.findByIdAndUpdate(
       req.params.id,
-      {$set: req.body},
+      {$set: authorData},
       {new: true}
     );
 

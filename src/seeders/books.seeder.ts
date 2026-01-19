@@ -1,16 +1,16 @@
 // --- Libraries
 import {config} from "dotenv";
 
-// --- Local Files
-import connectToDB from "../config/db.js";
-import Book from "../models/Book.js";
-import Author from "../models/Author.js";
+// --- Load environment variables from .env file
+config();
 
 // --- Local Data
 import {books} from "../data/books.data.js";
 
-// --- Load environment variables from .env file
-config();
+// --- Local Files
+import connectToDB from "../config/db.js";
+import Book from "../models/Book.js";
+import Author from "../models/Author.js";
 
 // --- Connect to DB
 connectToDB();
@@ -25,7 +25,7 @@ const seedBooks = async () => {
       process.exit(1);
     }
 
-    // --- Delete Books
+    // --- Delete current Books
     await Book.deleteMany();
 
     // --- Books with authors
