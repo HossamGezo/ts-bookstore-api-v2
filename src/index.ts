@@ -15,9 +15,10 @@ import logger from "./middlewares/logger.middleware.js";
 import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
 
 // --- Router Files
+import AuthRouter from "./routes/auth.routes.js";
+import UserRouter from "./routes/users.routes.js";
 import AuthorRouter from "./routes/authors.routes.js";
 import BookRouter from "./routes/books.routes.js";
-import AuthRouter from "./routes/auth.routes.js";
 
 // --- Init App
 const app = express();
@@ -34,13 +35,14 @@ app.use(
   cors({
     origin: process.env.CLIENT_URL, // Only That Domain Can Take Services From API
     methods: ["GET", "POST", "PUT", "DELETE"],
-  })
+  }),
 );
 
 // --- Routers
+app.use("/api/auth", AuthRouter);
+app.use("/api/users", UserRouter);
 app.use("/api/authors", AuthorRouter);
 app.use("/api/books", BookRouter);
-app.use("/api/auth", AuthRouter);
 
 // --- Error Middlewares
 app.use(notFound);
@@ -53,7 +55,7 @@ connectToDB().then(() =>
     console.log(
       `Server is running in ${
         process.env.NODE_ENV || "development"
-      } mode on port ${PORT} `
-    )
-  )
+      } mode on port ${PORT} `,
+    ),
+  ),
 );
