@@ -8,18 +8,20 @@ const ZodBookSchema = z
     title: z
       .string()
       .trim()
-      .min(5, {message: "Book title must be at least 5 characters"})
+      .min(3, {message: "Book title must be at least 3 characters"})
       .max(100, {message: "Book title is too long"}),
     authorName: z
       .string()
       .trim()
       .min(3, {message: "Author Name must be at least 3 characters"})
       .max(20, {message: "Author Name must not exceed 20 characters"}),
-    authorId: z.string().length(24, {message: "Invalid Author ID"}),
+    authorId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
+      message: "Invalid Author ID",
+    }),
     description: z
       .string()
       .trim()
-      .min(10, {message: "Book description must be at least 20 characters"})
+      .min(10, {message: "Book description must be at least 10 characters"})
       .max(500, {message: "Description can be up to 500 characters"}),
     price: z.number().min(0, {message: "Price cannot be less than 0"}),
     cover: z
@@ -31,11 +33,29 @@ const ZodBookSchema = z
   })
   .strict();
 
-export type ZodBookProps = z.infer<typeof ZodBookSchema>;
+export type BookDto = z.infer<typeof ZodBookSchema>;
+
+const QuerySchema = z.object({
+  minPrice: z
+    .string()
+    .regex(/^\d+$/, {message: "Minemum Price must be a number"})
+    .transform(Number)
+    .optional(),
+  maxPrice: z
+    .string()
+    .regex(/^\d+$/, {message: "Maximum Price must be a number"})
+    .transform(Number)
+    .optional(),
+});
 
 // --- Validate Book Function
 export const validateBook = (obj: unknown) => {
   return ZodBookSchema.safeParse(obj);
+};
+
+// --- Validate QuerySchema Function
+export const validateQuerySchema = (obj: unknown) => {
+  return QuerySchema.safeParse(obj);
 };
 
 // --- Mongo Book Schema
@@ -65,7 +85,7 @@ const MongoBookSchema = new mongoose.Schema(
       type: String,
       required: [true, "Description is required"],
       trim: true,
-      minLength: [10, "Book description must be at least 20 characters"],
+      minLength: [10, "Book description must be at least 10 characters"],
       maxLength: [500, "Description can be up to 500 characters"],
     },
     price: {
@@ -85,7 +105,7 @@ const MongoBookSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const Book = mongoose.model("Book", MongoBookSchema);

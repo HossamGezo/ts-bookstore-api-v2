@@ -30,9 +30,14 @@ const ZodUserRegisterSchema = z
         message: "Password must contain at least one special character",
       })
       .min(8, {message: "Password must be at least 8 characters"}),
+    confirmPassword: z.string().trim(),
   })
-  .strict();
-export type ZodUserRegisterProps = z.infer<typeof ZodUserRegisterSchema>;
+  .strict()
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
+export type UserRegisterDto = z.infer<typeof ZodUserRegisterSchema>;
 
 // --- Zod User Login Schema
 const ZodUserLoginSchema = z
@@ -41,25 +46,10 @@ const ZodUserLoginSchema = z
       .string()
       .trim()
       .regex(/^\S+@\S+\.\S+$/, {message: "Invalid Email Address"}),
-    password: z
-      .string()
-      .trim()
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter",
-      })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter",
-      })
-      .regex(/[0-9]/, {
-        message: "Password must contain at least one digit",
-      })
-      .regex(/\W/, {
-        message: "Password must contain at least one special character",
-      })
-      .min(8, {message: "Password must be at least 8 characters"}),
+    password: z.string().min(1, {message: "Password is required"}),
   })
   .strict();
-export type ZodUserLoginProps = z.infer<typeof ZodUserLoginSchema>;
+export type UserLoginDto = z.infer<typeof ZodUserLoginSchema>;
 
 // --- Zod User Update Schema
 const ZodUserUpdateSchema = z
@@ -94,30 +84,30 @@ const ZodUserUpdateSchema = z
       .optional(),
   })
   .strict();
-export type ZodUserUpdateProps = z.infer<typeof ZodUserUpdateSchema>;
+export type UserUpdateDto = z.infer<typeof ZodUserUpdateSchema>;
 
 // --- Zod User Change Password Schema
-const ZodUserChangePasswordSchema = z.object({
-  password: z
-    .string()
-    .trim()
-    .regex(/[A-Z]/, {
-      message: "Password must contain at least one uppercase letter",
-    })
-    .regex(/[a-z]/, {
-      message: "Password must contain at least one lowercase letter",
-    })
-    .regex(/[0-9]/, {
-      message: "Password must contain at least one digit",
-    })
-    .regex(/\W/, {
-      message: "Password must contain at least one special character",
-    })
-    .min(8, {message: "Password must be at least 8 characters"}),
-});
-export type ZodUserChangePasswordProps = z.infer<
-  typeof ZodUserChangePasswordSchema
->;
+const ZodUserChangePasswordSchema = z
+  .object({
+    password: z
+      .string()
+      .trim()
+      .regex(/[A-Z]/, {
+        message: "Password must contain at least one uppercase letter",
+      })
+      .regex(/[a-z]/, {
+        message: "Password must contain at least one lowercase letter",
+      })
+      .regex(/[0-9]/, {
+        message: "Password must contain at least one digit",
+      })
+      .regex(/\W/, {
+        message: "Password must contain at least one special character",
+      })
+      .min(8, {message: "Password must be at least 8 characters"}),
+  })
+  .strict();
+export type UserChangePasswordDto = z.infer<typeof ZodUserChangePasswordSchema>;
 
 // --- Zod Validation Functions
 
@@ -167,7 +157,10 @@ const MongoUserSchema = new mongoose.Schema(
       type: String,
       required: true,
       trim: true,
-      minLength: [8, "Password must be at least 8 characters"],
+      match: [
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/,
+        "Invalid Password",
+      ],
     },
     isAdmin: {
       type: Boolean,
@@ -176,7 +169,7 @@ const MongoUserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const User = mongoose.model("User", MongoUserSchema);

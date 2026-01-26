@@ -24,7 +24,7 @@ const ZodAuthorSchema = z
   })
   .strict();
 
-export type ZodAuthorProps = z.infer<typeof ZodAuthorSchema>;
+export type AuthorDto = z.infer<typeof ZodAuthorSchema>;
 
 // --- Zod Validate Function
 export const validateAuthor = (obj: unknown) => {

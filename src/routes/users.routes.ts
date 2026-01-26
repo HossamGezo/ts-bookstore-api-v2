@@ -3,22 +3,29 @@ import express from "express";
 
 // --- Users Controller Methods (Verbs)
 import {
-  deleteUserById,
   getAllUsers,
   getUserById,
   updateUserById,
+  deleteUserById,
 } from "../controllers/users.controller.js";
+
+// --- Local Middlewares
+import {
+  verifyTokenAndAdmin,
+  verifyTokenAndAuthorization,
+} from "../middlewares/verifyToken.js";
+import {validateObjectId} from "../middlewares/validateObjectId.middleware.js";
 
 // --- UserRouter
 const UserRouter = express.Router();
 
 // --- /api/users
-UserRouter.route("/").get(getAllUsers);
+UserRouter.route("/").get(verifyTokenAndAdmin, getAllUsers);
 
 // --- /api/users/:id
 UserRouter.route("/:id")
-  .get(getUserById)
-  .put(updateUserById)
-  .delete(deleteUserById);
+  .get(validateObjectId, verifyTokenAndAuthorization, getUserById)
+  .put(validateObjectId, verifyTokenAndAuthorization, updateUserById)
+  .delete(validateObjectId, verifyTokenAndAuthorization, deleteUserById);
 
 export default UserRouter;

@@ -10,16 +10,20 @@ import {
   updateBookById,
 } from "../controllers/books.controller.js";
 
+// --- Local Middlewares
+import {verifyTokenAndAdmin} from "../middlewares/verifyToken.js";
+import {validateObjectId} from "../middlewares/validateObjectId.middleware.js";
+
 // --- Router
 const BookRouter = express.Router();
 
 // --- /api/books
-BookRouter.route("/").get(getAllBooks).post(createNewBook);
+BookRouter.route("/").get(getAllBooks).post(verifyTokenAndAdmin, createNewBook);
 
 // --- /api/books/:id
 BookRouter.route("/:id")
-  .get(getBookById)
-  .put(updateBookById)
-  .delete(deleteBookById);
+  .get(validateObjectId, getBookById)
+  .put(validateObjectId, verifyTokenAndAdmin, updateBookById)
+  .delete(validateObjectId, verifyTokenAndAdmin, deleteBookById);
 
 export default BookRouter;

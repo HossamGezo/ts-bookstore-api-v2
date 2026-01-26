@@ -1,7 +1,7 @@
 // --- Libraries
 import express from "express";
 
-// --- Users Controller Methods (Verbs)
+// --- Auth Controller Methods (Verbs)
 import {loginUser, registerUser} from "../controllers/auth.controller.js";
 
 // --- Router
