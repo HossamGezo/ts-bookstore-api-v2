@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 const connectToDB = async () => {
+  // Ensure MONGO_URI exists (TypeScript safety check)
   if (!process.env.MONGO_URI) {
     console.error("MONGO_URI is missing!");
     process.exit(1);

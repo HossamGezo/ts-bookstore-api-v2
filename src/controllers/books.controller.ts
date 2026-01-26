@@ -3,7 +3,7 @@ import type {Request, Response} from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Model
-import Book, {validateBook, type ZodBookProps} from "../models/Book.js";
+import Book, {validateBook, validateQuerySchema} from "../models/Book.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -14,12 +14,24 @@ import Book, {validateBook, type ZodBookProps} from "../models/Book.js";
  * @access public
  */
 export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
-  // --- Filtering Logic
-  let query = {};
-  const {minPrice, maxPrice} = req.query;
-  if (minPrice && maxPrice) {
-    query = {price: {$gte: Number(minPrice), $lte: Number(maxPrice)}};
+  // --- Zod Validation
+  const validate = validateQuerySchema(req.query);
+  if (!validate.success) {
+    res.status(400).json({message: validate.error.issues[0]?.message});
+    return;
   }
+
+  // --- Filtering Logic
+  let query: any = {};
+  const {minPrice, maxPrice} = validate.data;
+
+  // Better Solution
+  if (minPrice !== undefined) query.price = {$gte: minPrice};
+  if (maxPrice !== undefined) query.price = {...query.price, $lte: maxPrice};
+
+  // if (minPrice && maxPrice) {
+  //   query = {price: {$gte: Number(minPrice), $lte: Number(maxPrice)}};
+  // }
 
   // --- Get All Books
   const books = await Book.find(query).populate("authorId", [
@@ -67,13 +79,12 @@ export const createNewBook = asyncHandler(
     // --- Zod Validation
     const validate = validateBook(req.body);
     if (!validate.success) {
-      res.status(400).json({message: validate.error.message});
+      res.status(400).json({message: validate.error.issues[0]?.message});
       return;
     }
 
     // --- Mongo Validation
-    const booksData: ZodBookProps = validate.data;
-    const newBook = new Book(booksData);
+    const newBook = new Book(validate.data);
 
     // --- Inject Book to database
     const result = await newBook.save();
@@ -81,7 +92,7 @@ export const createNewBook = asyncHandler(
     // --- Response
     res.status(201).json(result);
     return;
-  }
+  },
 );
 
 /**
@@ -92,31 +103,29 @@ export const createNewBook = asyncHandler(
  */
 export const updateBookById = asyncHandler(
   async (req: Request, res: Response) => {
-    // --- isExist Logic
-    const isExist = await Book.findById(req.params.id);
-    if (!isExist) {
-      res.status(404).json({message: "Book not found"});
-      return;
-    }
-
     // --- Zod Validation
     const validate = validateBook(req.body);
     if (!validate.success) {
-      res.status(400).json({message: validate.error.message});
+      res.status(400).json({message: validate.error.issues[0]?.message});
       return;
     }
 
     // --- Update Book Logic
-    const booksData: ZodBookProps = validate.data;
     const updatedBook = await Book.findByIdAndUpdate(
       req.params.id,
-      {$set: booksData},
-      {new: true}
-    );
+      {$set: validate.data},
+      {new: true},
+    ).populate("authorId", ["firstName", "lastName", "nationality", "image"]);
+
+    if (!updatedBook) {
+      res.status(404).json({message: "Book not found"});
+      return;
+    }
 
     // --- Response
     res.status(200).json(updatedBook);
-  }
+    return;
+  },
 );
 
 /**
@@ -127,18 +136,15 @@ export const updateBookById = asyncHandler(
  */
 export const deleteBookById = asyncHandler(
   async (req: Request, res: Response) => {
-    // --- isExist Logic
-    const isExist = await Book.findById(req.params.id);
-    if (!isExist) {
+    // --- Check Existence
+    const book = await Book.findByIdAndDelete(req.params.id);
+    if (!book) {
       res.status(404).json({message: "Book not Found"});
       return;
     }
 
-    // --- Delete Book from database
-    await Book.findByIdAndDelete(req.params.id);
-
-    // --- Reponse
+    // --- Response
     res.status(200).json({message: "Book has been deleted"});
     return;
-  }
+  },
 );

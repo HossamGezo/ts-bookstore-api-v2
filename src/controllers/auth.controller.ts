@@ -20,12 +20,12 @@ export const registerUser = asyncHandler(
     // --- Zod Validation
     const validate = validateRegister(req.body);
     if (!validate.success) {
-      res.status(400).json({message: validate.error.message});
+      res.status(400).json({message: validate.error.issues[0]?.message});
       return;
     }
 
     // --- Check Uniqueness
-    const uniqueUser = await User.findOne({email: req.body.email});
+    const uniqueUser = await User.findOne({email: validate.data.email});
 
     if (uniqueUser) {
       res.status(400).json({message: "This user already registered"});
@@ -34,7 +34,7 @@ export const registerUser = asyncHandler(
 
     // --- Hash User Password
     const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(req.body.password, salt);
+    const hash = await bcrypt.hash(validate.data.password, salt);
 
     // --- Create New User
     const newUser = new User({...validate.data, password: hash});
@@ -44,14 +44,16 @@ export const registerUser = asyncHandler(
     const token = jwt.sign(
       {id: newUser._id, isAdmin: newUser.isAdmin},
       process.env.JWT_SECRET_KEY!,
-      {expiresIn: "30d"}
+      {expiresIn: "30d"},
     );
 
-    // --- Response
+    // --- Exclude Password from Response
     const {password, ...otherData} = newUser.toObject();
+
+    // --- Response
     res.status(201).json({...otherData, token});
     return;
-  }
+  },
 );
 
 /**
@@ -64,21 +66,21 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   // --- Zod Validation
   const validate = validateLogin(req.body);
   if (!validate.success) {
-    res.status(400).json({message: validate.error.message});
+    res.status(400).json({message: validate.error.issues[0]?.message});
     return;
   }
 
-  // --- isExist Logic
-  const isExist = await User.findOne({email: req.body.email});
-  if (!isExist) {
+  // --- Check Existence
+  const user = await User.findOne({email: validate.data.email});
+  if (!user) {
     res.status(400).json({message: "Invalid email or password"});
     return;
   }
 
   // --- Check Password
   const isPasswordMatch = await bcrypt.compare(
-    req.body.password,
-    isExist.password
+    validate.data.password,
+    user.password,
   );
   if (!isPasswordMatch) {
     res.status(400).json({message: "Invalid email or password"});
@@ -87,15 +89,15 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
   // --- Generate Token
   const token = jwt.sign(
-    {id: isExist._id, isAdmin: isExist.isAdmin},
+    {id: user._id, isAdmin: user.isAdmin},
     process.env.JWT_SECRET_KEY!,
-    {expiresIn: "30d"}
+    {expiresIn: "30d"},
   );
 
   // --- Exclude Password from Response
-  const {password, ...otherData} = isExist.toObject();
+  const {password, ...otherData} = user.toObject();
 
   // --- Response
-  res.status(200).json({token, ...otherData});
+  res.status(200).json({...otherData, token});
   return;
 });

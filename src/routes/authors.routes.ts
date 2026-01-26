@@ -10,16 +10,22 @@ import {
   updateAuthorById,
 } from "../controllers/authors.controller.js";
 
+// --- Local Middlewares
+import {verifyTokenAndAdmin} from "../middlewares/verifyToken.js";
+import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+
 // --- Router
 const AuthorRouter = express.Router();
 
 // --- /api/authors
-AuthorRouter.route("/").get(getAllAuthors).post(createNewAuthor);
+AuthorRouter.route("/")
+  .get(getAllAuthors)
+  .post(verifyTokenAndAdmin, createNewAuthor);
 
 // --- /api/authors/:id
 AuthorRouter.route("/:id")
-  .get(getAuthorById)
-  .put(updateAuthorById)
-  .delete(deleteAuthorById);
+  .get(validateObjectId, getAuthorById)
+  .put(validateObjectId, verifyTokenAndAdmin, updateAuthorById)
+  .delete(validateObjectId, verifyTokenAndAdmin, deleteAuthorById);
 
 export default AuthorRouter;

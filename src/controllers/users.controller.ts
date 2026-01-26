@@ -46,36 +46,31 @@ export const updateUserById = asyncHandler(
     // --- Validation
     const validate = validateUpdate(req.body);
     if (!validate.success) {
-      res.status(400).json({message: validate.error.message});
+      res.status(400).json({message: validate.error.issues[0]?.message});
       return;
     }
 
+    // --- Hashing Password
+    if (validate.data.password) {
+      const salt = await bcrypt.genSalt(10);
+      validate.data.password = await bcrypt.hash(validate.data.password, salt);
+    }
+
+    // --- Update
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {$set: validate.data},
+      {new: true},
+    ).select("-password");
+
     // --- Check Existence
-    const user = await User.findById(req.params.id);
-    if (!user) {
+    if (!updatedUser) {
       res.status(404).json({message: "User not found"});
       return;
     }
 
-    // --- Prepare Data
-    let updatedData = {...validate.data};
-    if (validate.data.password) {
-      const salt = await bcrypt.genSalt(10);
-      updatedData.password = await bcrypt.hash(validate.data.password, salt);
-    }
-
-    // --- Update
-    const result = await User.findByIdAndUpdate(
-      req.params.id,
-      {$set: updatedData},
-      {new: true},
-    );
-
-    // --- Exclude Password from Response
-    const {password, ...otherData} = result!.toObject();
-
     // --- Response
-    res.status(200).json({...otherData});
+    res.status(200).json(updatedUser);
     return;
   },
 );
