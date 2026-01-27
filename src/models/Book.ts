@@ -38,7 +38,7 @@ export type BookDto = z.infer<typeof ZodBookSchema>;
 const QuerySchema = z.object({
   minPrice: z
     .string()
-    .regex(/^\d+$/, {message: "Minemum Price must be a number"})
+    .regex(/^\d+$/, {message: "Minimum Price must be a number"})
     .transform(Number)
     .optional(),
   maxPrice: z

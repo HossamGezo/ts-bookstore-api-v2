@@ -10,10 +10,7 @@ const ZodUserRegisterSchema = z
       .trim()
       .min(3, {message: "UserName must be at least 3 characters"})
       .max(20, {message: "UserName must not exceed 20 characters"}),
-    email: z
-      .string()
-      .trim()
-      .regex(/^\S+@\S+\.\S+$/, {message: "Invalid Email Address"}),
+    email: z.string().email({message: "Invalid Email Address"}).trim(),
     password: z
       .string()
       .trim()
@@ -42,10 +39,7 @@ export type UserRegisterDto = z.infer<typeof ZodUserRegisterSchema>;
 // --- Zod User Login Schema
 const ZodUserLoginSchema = z
   .object({
-    email: z
-      .string()
-      .trim()
-      .regex(/^\S+@\S+\.\S+$/, {message: "Invalid Email Address"}),
+    email: z.string().email({message: "Invalid Email Address"}).trim(),
     password: z.string().min(1, {message: "Password is required"}),
   })
   .strict();
@@ -62,8 +56,8 @@ const ZodUserUpdateSchema = z
       .optional(),
     email: z
       .string()
+      .email({message: "Invalid Email Address"})
       .trim()
-      .regex(/^\S+@\S+\.\S+$/, {message: "Invalid Email Address"})
       .optional(),
     password: z
       .string()
@@ -151,16 +145,13 @@ const MongoUserSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
-      match: [/^\S+@\S+\.\S+$/, "Invalid Email Address"],
+      lowercase: true,
     },
     password: {
       type: String,
       required: true,
       trim: true,
-      match: [
-        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,}$/,
-        "Invalid Password",
-      ],
+      select: false,
     },
     isAdmin: {
       type: Boolean,
