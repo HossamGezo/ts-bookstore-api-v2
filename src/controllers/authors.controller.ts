@@ -20,7 +20,7 @@ export const getAllAuthors = asyncHandler(
     const page = parseInt(pageNumber as string) || 1;
     const authorsPerPage = 2;
     const skip = (page - 1) * authorsPerPage;
-    
+
     const [authors, totalAuthors] = await Promise.all([
       Author.find().skip(skip).limit(authorsPerPage).sort({firstName: 1}),
       Author.countDocuments(),
@@ -72,11 +72,8 @@ export const createNewAuthor = asyncHandler(
       return;
     }
 
-    // --- Mongo Validation
-    const newAuthor = new Author(validate.data);
-
     // --- Inject Author to database
-    const result = await newAuthor.save();
+    const result = await Author.create(validate.data);
 
     // --- Response
     res.status(201).json(result);
