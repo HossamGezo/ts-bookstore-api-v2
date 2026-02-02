@@ -1,6 +1,6 @@
 // --- Libraries
 import express from "express";
-import {config} from "dotenv";
+import { config } from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 
@@ -12,13 +12,13 @@ import connectToDB from "./config/db.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.middleware.js";
-import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
+import { errorHandler, notFound } from "./middlewares/errors.middleware.js";
 
 // --- Router Files
 import AuthRouter from "./routes/auth.routes.js";
-import UserRouter from "./routes/users.routes.js";
-import AuthorRouter from "./routes/authors.routes.js";
-import BookRouter from "./routes/books.routes.js";
+import UserRouter from "./routes/user.routes.js";
+import AuthorRouter from "./routes/author.routes.js";
+import BookRouter from "./routes/book.routes.js";
 
 // --- Init App
 const app = express();

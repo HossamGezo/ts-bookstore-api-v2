@@ -1,4 +1,4 @@
-import type {NextFunction, Request, Response} from "express";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 /**
@@ -27,7 +27,7 @@ export const verifyToken = (
    */
   const token = req.headers.token;
   if (!token || typeof token !== "string") {
-    res.status(401).json({message: "No token provided or invalid format"});
+    res.status(401).json({ message: "No token provided or invalid format" });
     return;
   }
 
@@ -45,7 +45,7 @@ export const verifyToken = (
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({message: "Invalid or expired token"});
+    res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 

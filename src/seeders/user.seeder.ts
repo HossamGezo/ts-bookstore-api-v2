@@ -1,12 +1,12 @@
 // --- Libraries
-import {config} from "dotenv";
+import { config } from "dotenv";
 import bcrypt from "bcryptjs";
 
 // --- Load Environment Variables from .env file
 config();
 
 // --- Local data
-import {users} from "../data/users.data.js";
+import { users } from "../data/users.data.js";
 
 // --- Local Files
 import connectToDB from "../config/db.js";
@@ -26,8 +26,8 @@ const seedUsers = async () => {
       users.map(async (user) => {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(user.password, salt);
-        return {...user, password: hash};
-      })
+        return { ...user, password: hash };
+      }),
     );
 
     // --- Seed users logic

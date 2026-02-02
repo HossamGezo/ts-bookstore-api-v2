@@ -1,11 +1,11 @@
 // --- Libraries
-import {config} from "dotenv";
+import { config } from "dotenv";
 
 // --- Load environment variables from .env file
 config();
 
 // --- Local Data
-import {books} from "../data/books.data.js";
+import { books } from "../data/books.data.js";
 
 // --- Local Files
 import connectToDB from "../config/db.js";
@@ -31,7 +31,8 @@ const seedBooks = async () => {
     // --- Books with authors
     const booksWithAuthors = books.map((book) => {
       const author = authors.find(
-        (author) => `${author.firstName} ${author.lastName}` === book.authorName
+        (author) =>
+          `${author.firstName} ${author.lastName}` === book.authorName,
       );
       return {
         ...book,

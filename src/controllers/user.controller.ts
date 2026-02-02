@@ -1,0 +1,102 @@
+// --- Libraries
+import type { Request, Response } from "express";
+import asyncHandler from "express-async-handler";
+
+// --- Validations
+import { validateUpdate } from "../validations/user.validation.js";
+
+// --- Services
+import {
+  deleteUserByIdService,
+  getAllUsersService,
+  getUserByIdService,
+  updateUserByIdService,
+} from "../services/user.service.js";
+import { UserQuerySchema } from "../validations/query.validation.js";
+
+/**
+ * @desc Get All Users
+ * @route /api/users
+ * @method GET
+ * @access private (only admin)
+ */
+export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
+  const validation = UserQuerySchema.safeParse(req.query);
+
+  if (!validation.success) {
+    res.status(400).json({ message: validation.error.issues[0]?.message });
+    return;
+  }
+
+  const result = await getAllUsersService(validation.data);
+  res.status(200).json(result.data);
+  return;
+});
+
+/**
+ * @desc Get User By Id
+ * @route /api/users/:id
+ * @method GET
+ * @access private (only admin & user himself)
+ */
+export const getUserById = asyncHandler(async (req: Request, res: Response) => {
+  const result = await getUserByIdService(req.params.id!);
+
+  if (!result.success) {
+    res.status(result.statusCode!).json({ message: result.message });
+    return;
+  }
+
+  res.status(200).json(result.data);
+  return;
+});
+
+/**
+ * @desc Update User By Id
+ * @route /api/users/:id
+ * @method UPDATE
+ * @access private (only admin & user himself)
+ */
+export const updateUserById = asyncHandler(
+  async (req: Request, res: Response) => {
+    // --- Validation
+    const validation = validateUpdate(req.body);
+    if (!validation.success) {
+      res.status(400).json({ message: validation.error.issues[0]?.message });
+      return;
+    }
+
+    // --- Update User By Id Service
+    const result = await updateUserByIdService(req.params.id!, validation.data);
+
+    if (!result.success) {
+      res.status(result.statusCode!).json({ message: result.message });
+      return;
+    }
+
+    // --- Response
+    res.status(200).json(result.data);
+    return;
+  },
+);
+
+/**
+ * @desc Delete User By Id
+ * @route /api/users/:id
+ * @method DELETE
+ * @access private (only admin & user himself)
+ */
+export const deleteUserById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const result = await deleteUserByIdService(req.params.id!);
+
+    if (!result.success) {
+      res.status(result.statusCode!).json({ message: result.message });
+      return;
+    }
+
+    // --- Response
+    res.status(200).json(result.data);
+    return;
+  },
+);
