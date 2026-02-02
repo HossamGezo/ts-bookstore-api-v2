@@ -1,7 +1,14 @@
-import type {Request, Response, NextFunction} from "express";
+import type { Request, Response, NextFunction } from "express";
+
+/**
+ * @desc Logger middleware to track HTTP requests
+ */
 
 const logger = (req: Request, _res: Response, next: NextFunction) => {
-  console.log(`${req.method} ${req.protocol}://${req.host}${req.originalUrl}`);
+  const date = new Date().toISOString();
+  const method = req.method;
+  const url = `${req.protocol}://${req.get("host")}${req.originalUrl}`;
+  console.log(`[${date}] ${method} ${url}`);
   next();
 };
 

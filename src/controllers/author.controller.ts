@@ -1,0 +1,139 @@
+// --- Libraries
+import type { Request, Response } from "express";
+import asyncHandler from "express-async-handler";
+
+// --- Validations
+import { validateAuthor } from "../validations/author.validation.js";
+
+// --- services
+import {
+  createNewAuthorService,
+  deleteAuthorByIdService,
+  getAllAuthorsService,
+  getAuthorByIdService,
+  updateAuthorByIdService,
+} from "../services/author.service.js";
+import { AuthorQuerySchema } from "../validations/query.validation.js";
+
+// --- HTTP Methods (Verbs)
+
+/**
+ * @desc Get All Authors
+ * @route /api/authors
+ * @method GET
+ * @access public
+ */
+export const getAllAuthors = asyncHandler(
+  async (req: Request, res: Response) => {
+    const validation = AuthorQuerySchema.safeParse(req.query);
+
+    if (!validation.success) {
+      res.status(400).json({ message: validation.error.issues[0]?.message });
+      return;
+    }
+
+    const result = await getAllAuthorsService(validation.data);
+
+    // --- Response
+    res.status(200).json(result.data);
+    return;
+  },
+);
+
+/**
+ * @desc Get Author By Id
+ * @route /api/authors/:id
+ * @method GET
+ * @access public
+ */
+export const getAuthorById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const result = await getAuthorByIdService(req.params.id!);
+
+    if (!result.success) {
+      res.status(result.statusCode!).json({ message: result.message });
+      return;
+    }
+
+    // --- Response
+    res.status(200).json(result.data);
+    return;
+  },
+);
+
+/**
+ * @desc Create New Author
+ * @route /api/author
+ * @method POST
+ * @access private (only admin)
+ */
+export const createNewAuthor = asyncHandler(
+  async (req: Request, res: Response) => {
+    // --- Validation
+    const validation = validateAuthor(req.body);
+    if (!validation.success) {
+      res.status(400).json({ message: validation.error.issues[0]?.message });
+      return;
+    }
+
+    // --- Inject Author to database
+    const result = await createNewAuthorService(validation.data);
+
+    // --- Response
+    res.status(201).json(result.data);
+    return;
+  },
+);
+
+/**
+ * @desc Update Author
+ * @route /api/author/:id
+ * @method PUT
+ * @access private (only admin)
+ */
+export const updateAuthorById = asyncHandler(
+  async (req: Request, res: Response) => {
+    // --- Validation
+    const validation = validateAuthor(req.body);
+    if (!validation.success) {
+      res.status(400).json({ message: validation.error.issues[0]?.message });
+      return;
+    }
+
+    // --- Update Author By Id service
+    const result = await updateAuthorByIdService(
+      req.params.id!,
+      validation.data,
+    );
+
+    if (!result.success) {
+      res.status(result.statusCode!).json({ message: result.message });
+      return;
+    }
+
+    // --- Response
+    res.status(200).json(result.data);
+    return;
+  },
+);
+
+/**
+ * @desc Delete Author
+ * @route /api/author/:id
+ * @method DELETE
+ * @access private (only admin)
+ */
+export const deleteAuthorById = asyncHandler(
+  async (req: Request, res: Response) => {
+    const result = await deleteAuthorByIdService(req.params.id!);
+
+    if (!result.success) {
+      res.status(result.statusCode!).json({ message: result.message });
+      return;
+    }
+
+    // --- Response
+    res.status(200).json(result.data);
+    return;
+  },
+);

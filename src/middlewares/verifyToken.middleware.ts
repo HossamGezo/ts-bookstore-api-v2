@@ -1,4 +1,4 @@
-import type {NextFunction, Request, Response} from "express";
+import type { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 
 /**
@@ -10,16 +10,24 @@ export const verifyToken = (
   next: NextFunction,
 ) => {
   // --- Check Existence
-  /* 
-    FUTURE_IMPROVEMENT (STANDARD_UPGRADE): 
-    To follow the industry standard (OAuth 2.0 / Bearer Token):
-    1. Switch to: const authHeader = req.headers.authorization;
-    2. Extract token using: const token = authHeader.split(" ")[1];
-    3. Ensure the Frontend sends: { Authorization: "Bearer <token>" }
-  */
+  /**
+   * FUTURE_SECURITY_UPGRADE & STANDARDS:
+   * Currently, we are using a custom 'token' header for simplicity.
+   * In a production-grade environment, consider these two industry standards:
+   *
+   * 1. AUTHORIZATION HEADER (Bearer Token):
+   *    - Format: Authorization: Bearer <token>
+   *    - Usage: Best for Mobile Apps, Third-party integrations, and Server-to-Server communication.
+   *    - Implementation: const token = req.headers.authorization?.split(" ")[1];
+   *
+   * 2. HTTP-ONLY COOKIES (Secure Storage):
+   *    - Usage: Best for Web Applications (React/Next.js) to prevent XSS attacks.
+   *    - Security: Browsers manage cookies automatically and JS cannot access them.
+   *    - Implementation: const token = req.cookies.token; (requires cookie-parser)
+   */
   const token = req.headers.token;
   if (!token || typeof token !== "string") {
-    res.status(401).json({message: "No token provided or invalid format"});
+    res.status(401).json({ message: "No token provided or invalid format" });
     return;
   }
 
@@ -37,7 +45,7 @@ export const verifyToken = (
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({message: "Invalid or expired token"});
+    res.status(401).json({ message: "Invalid or expired token" });
   }
 };
 
@@ -53,7 +61,7 @@ export const verifyTokenAndAuthorization = (
     // --- Ensure that token belongs to user
     if (req.user?.id !== req.params.id && !req.user?.isAdmin) {
       res.status(403).json({
-        message: "You are not allowed, you can only update your profile",
+        message: "Access denied. You are not authorized to perform this action",
       });
       return;
     }

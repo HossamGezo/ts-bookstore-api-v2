@@ -8,10 +8,10 @@ import {
   getAllAuthors,
   getAuthorById,
   updateAuthorById,
-} from "../controllers/authors.controller.js";
+} from "../controllers/author.controller.js";
 
 // --- Local Middlewares
-import {verifyTokenAndAdmin} from "../middlewares/verifyToken.js";
+import { verifyTokenAndAdmin } from "../middlewares/verifyToken.middleware.js";
 import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
 
 // --- Router

@@ -1,11 +1,16 @@
 // --- Libraries
-import type {Request, Response} from "express";
+import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 // --- Local Files
-import User, {validateLogin, validateRegister} from "../models/User.js";
+import {
+  validateLogin,
+  validateRegister,
+} from "../validations/user.validation.js";
+import {
+  loginUserService,
+  registerUserService,
+} from "../services/auth.service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -17,42 +22,22 @@ import User, {validateLogin, validateRegister} from "../models/User.js";
  */
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
-    // --- Zod Validation
-    const validate = validateRegister(req.body);
-    if (!validate.success) {
-      res.status(400).json({message: validate.error.issues[0]?.message});
+    // --- Validation
+    const validation = validateRegister(req.body);
+    if (!validation.success) {
+      res.status(400).json({ message: validation.error.issues[0]?.message });
       return;
     }
 
-    // --- Check Uniqueness
-    const uniqueUser = await User.findOne({email: validate.data.email});
+    // --- Register User Service
+    const result = await registerUserService(validation.data);
 
-    if (uniqueUser) {
-      res.status(400).json({message: "This user already registered"});
+    if (!result.success) {
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
-    // --- Hash User Password
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(validate.data.password, salt);
-
-    // --- Create New User
-    const newUser = new User({...validate.data, password: hash});
-    await newUser.save();
-
-    // --- Generate Token
-    const token = jwt.sign(
-      {id: newUser._id, isAdmin: newUser.isAdmin},
-      process.env.JWT_SECRET_KEY!,
-      {expiresIn: "30d"},
-    );
-
-    // --- Exclude Password from Response
-    const {password, ...otherData} = newUser.toObject();
-
-    // --- Response
-    res.status(201).json({...otherData, token});
-    return;
+    res.status(201).json(result.data);
   },
 );
 
@@ -63,41 +48,20 @@ export const registerUser = asyncHandler(
  * @access public
  */
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
-  // --- Zod Validation
-  const validate = validateLogin(req.body);
-  if (!validate.success) {
-    res.status(400).json({message: validate.error.issues[0]?.message});
+  // --- Validation
+  const validation = validateLogin(req.body);
+  if (!validation.success) {
+    res.status(400).json({ message: validation.error.issues[0]?.message });
     return;
   }
 
-  // --- Check Existence
-  const user = await User.findOne({email: validate.data.email});
-  if (!user) {
-    res.status(400).json({message: "Invalid email or password"});
+  // --- Login User Service
+  const result = await loginUserService(validation.data);
+
+  if (!result.success) {
+    res.status(result.statusCode!).json({ message: result.message });
     return;
   }
 
-  // --- Check Password
-  const isPasswordMatch = await bcrypt.compare(
-    validate.data.password,
-    user.password,
-  );
-  if (!isPasswordMatch) {
-    res.status(400).json({message: "Invalid email or password"});
-    return;
-  }
-
-  // --- Generate Token
-  const token = jwt.sign(
-    {id: user._id, isAdmin: user.isAdmin},
-    process.env.JWT_SECRET_KEY!,
-    {expiresIn: "30d"},
-  );
-
-  // --- Exclude Password from Response
-  const {password, ...otherData} = user.toObject();
-
-  // --- Response
-  res.status(200).json({...otherData, token});
-  return;
+  res.status(200).json(result.data);
 });

@@ -7,14 +7,14 @@ import {
   getUserById,
   updateUserById,
   deleteUserById,
-} from "../controllers/users.controller.js";
+} from "../controllers/user.controller.js";
 
 // --- Local Middlewares
 import {
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
-} from "../middlewares/verifyToken.js";
-import {validateObjectId} from "../middlewares/validateObjectId.middleware.js";
+} from "../middlewares/verifyToken.middleware.js";
+import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
 
 // --- UserRouter
 const UserRouter = express.Router();

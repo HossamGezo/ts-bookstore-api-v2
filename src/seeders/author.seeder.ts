@@ -1,11 +1,11 @@
 // --- Libraries
-import {config} from "dotenv";
+import { config } from "dotenv";
 
 // --- Load environment variables from .env file
 config();
 
 // --- Local Data
-import {authors} from "../data/authors.data.js";
+import { authors } from "../data/authors.data.js";
 
 // --- Local Files
 import connectToDB from "../config/db.js";
