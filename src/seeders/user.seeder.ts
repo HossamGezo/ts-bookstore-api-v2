@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 config();
 
 // --- Local data
-import { users } from "../data/users.data.js";
+import { users } from "../data/user.data.js";
 
 // --- Local Files
 import connectToDB from "../config/db.js";

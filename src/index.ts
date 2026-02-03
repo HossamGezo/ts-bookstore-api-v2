@@ -1,8 +1,9 @@
 // --- Libraries
 import express from "express";
-import { config } from "dotenv";
+import {config} from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
+import path from "path";
 
 // --- Load environment variables from .env file
 config();
@@ -12,10 +13,11 @@ import connectToDB from "./config/db.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.middleware.js";
-import { errorHandler, notFound } from "./middlewares/errors.middleware.js";
+import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
 
 // --- Router Files
 import AuthRouter from "./routes/auth.routes.js";
+import PasswordRouter from "./routes/password.routes.js";
 import UserRouter from "./routes/user.routes.js";
 import AuthorRouter from "./routes/author.routes.js";
 import BookRouter from "./routes/book.routes.js";
@@ -25,6 +27,7 @@ const app = express();
 
 // --- Middlewares
 app.use(express.json());
+app.use(express.urlencoded({extended: false})); // Allow Express to read form data from HTML forms
 app.use(logger);
 
 // --- Helmet
@@ -38,8 +41,14 @@ app.use(
   }),
 );
 
+// --- View Engine & Static Folder Setup
+app.use(express.static(path.join(process.cwd(), "public"))); // Expose the "public" folder to serve static assets
+app.set("views", path.join(process.cwd(), "views")); // Tell Express where the views (EJS templates) live
+app.set("view engine", "ejs");
+
 // --- Routers
 app.use("/api/auth", AuthRouter);
+app.use("/password", PasswordRouter);
 app.use("/api/users", UserRouter);
 app.use("/api/authors", AuthorRouter);
 app.use("/api/books", BookRouter);

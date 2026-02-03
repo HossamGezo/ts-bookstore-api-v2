@@ -5,7 +5,7 @@ import { config } from "dotenv";
 config();
 
 // --- Local Data
-import { authors } from "../data/authors.data.js";
+import { authors } from "../data/author.data.js";
 
 // --- Local Files
 import connectToDB from "../config/db.js";
