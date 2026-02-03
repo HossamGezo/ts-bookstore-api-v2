@@ -9,7 +9,7 @@ import {
   deleteUserById,
 } from "../controllers/user.controller.js";
 
-// --- Local Middlewares
+// --- Middlewares
 import {
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,

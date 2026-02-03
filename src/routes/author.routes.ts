@@ -10,7 +10,7 @@ import {
   updateAuthorById,
 } from "../controllers/author.controller.js";
 
-// --- Local Middlewares
+// --- Middlewares
 import { verifyTokenAndAdmin } from "../middlewares/verifyToken.middleware.js";
 import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
 
