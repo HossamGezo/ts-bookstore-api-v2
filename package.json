@@ -7,14 +7,15 @@
     "start": "node dist/index.js",
     "dev": "nodemon --exec tsx src/index.ts",
     "build": "tsc",
+    "tailwind": "npx @tailwindcss/cli -i ./src/css/input.css -o ./public/css/output.css --watch",
     "format": "prettier --write .",
     "tree": "tree -I 'node_modules|dist'",
+    "seed:users": "tsx src/seeders/users.seeder.ts -seed",
+    "delete:users": "tsx src/seeders/users.seeder.ts -delete",
     "seed:authors": "tsx src/seeders/authors.seeder.ts -seed",
     "delete:authors": "tsx src/seeders/authors.seeder.ts -delete",
     "seed:books": "tsx src/seeders/books.seeder.ts -seed",
-    "delete:books": "tsx src/seeders/books.seeder.ts -delete",
-    "seed:users": "tsx src/seeders/users.seeder.ts -seed",
-    "delete:users": "tsx src/seeders/users.seeder.ts -delete"
+    "delete:books": "tsx src/seeders/books.seeder.ts -delete"
   },
   "repository": {
     "type": "git",
@@ -29,6 +30,7 @@
   },
   "homepage": "https://github.com/HossamGezo/ts-bookstore-api-v2#readme",
   "devDependencies": {
+    "@tailwindcss/cli": "^4.1.18",
     "@types/cors": "^2.8.19",
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
@@ -38,6 +40,7 @@
     "@types/nodemailer": "^7.0.4",
     "nodemon": "^3.1.11",
     "prettier": "^3.8.1",
+    "tailwindcss": "^4.1.18",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },

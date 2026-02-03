@@ -20,8 +20,8 @@ interface failureResponseParams {
   message: string;
 }
 export const failureResponse = ({
-  message,
   statusCode = 400,
+  message,
 }: failureResponseParams) => {
   return {
     success: false,
