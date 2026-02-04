@@ -4,7 +4,7 @@ import {z} from "zod";
 // --- Email Schema
 const EmailSchema = z
   .object({
-    email: z.string().email({message: "Invalid Email Address"}).trim(),
+    email: z.string().trim().email({message: "Invalid Email Address"}).trim(),
   })
   .strict();
 
@@ -15,15 +15,17 @@ const PasswordSchema = z
   .object({
     password: z
       .string()
+      .trim()
       .regex(/^(?=.*\d)(?=.*\W)(?=.*[a-z])(?=.*[A-Z]).{8,}$/, {
         message:
           "Password must have at least 8 characters, including uppercase, lowercase, number, and special character.",
       }),
-    confirmPassword: z.string(),
+    confirmPassword: z.string().trim(),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
-  });
+  })
+  .strict();
 
 export type PasswordSchemaDto = z.infer<typeof PasswordSchema>;
 

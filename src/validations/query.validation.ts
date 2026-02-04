@@ -1,24 +1,27 @@
-import { z } from "zod";
+import {z} from "zod";
 
 const BaseQuerySchema = z.object({
   page: z
     .string()
-    .regex(/^\d+$/, { message: "Page number must be a number" })
+    .trim()
+    .regex(/^\d+$/, {message: "Page number must be a number"})
     .transform(Number)
     .optional(),
-  search: z.string().optional(),
-  sortBy: z.string().optional(),
+  search: z.string().trim().optional(),
+  sortBy: z.string().trim().optional(),
 });
 
 export const BookQuerySchema = BaseQuerySchema.extend({
   minPrice: z
     .string()
-    .regex(/^\d+$/, { message: "Minimum Price must be a number" })
+    .trim()
+    .regex(/^\d+$/, {message: "Minimum Price must be a number"})
     .transform(Number)
     .optional(),
   maxPrice: z
     .string()
-    .regex(/^\d+$/, { message: "Maximum Price must be a number" })
+    .trim()
+    .regex(/^\d+$/, {message: "Maximum Price must be a number"})
     .transform(Number)
     .optional(),
 });
