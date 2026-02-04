@@ -1,9 +1,9 @@
 // --- Libraries
-import type { Request, Response } from "express";
+import type {Request, Response} from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import { validateUpdate } from "../validations/user.validation.js";
+import {validateUpdate} from "../validations/user.validation.js";
 
 // --- Services
 import {
@@ -12,7 +12,10 @@ import {
   getUserByIdService,
   updateUserByIdService,
 } from "../services/user.service.js";
-import { UserQuerySchema } from "../validations/query.validation.js";
+import {UserQuerySchema} from "../validations/query.validation.js";
+
+// --- Types
+import type {ServiceResult} from "../types/service.js";
 
 /**
  * @desc Get All Users
@@ -24,11 +27,11 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
   const validation = UserQuerySchema.safeParse(req.query);
 
   if (!validation.success) {
-    res.status(400).json({ message: validation.error.issues[0]?.message });
+    res.status(400).json({message: validation.error.issues[0]?.message});
     return;
   }
 
-  const result = await getAllUsersService(validation.data);
+  const result = (await getAllUsersService(validation.data)) as ServiceResult;
   res.status(200).json(result.data);
   return;
 });
@@ -40,10 +43,10 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
  * @access private (only admin & user himself)
  */
 export const getUserById = asyncHandler(async (req: Request, res: Response) => {
-  const result = await getUserByIdService(req.params.id!);
+  const result = (await getUserByIdService(req.params.id!)) as ServiceResult;
 
   if (!result.success) {
-    res.status(result.statusCode!).json({ message: result.message });
+    res.status(result.statusCode!).json({message: result.message});
     return;
   }
 
@@ -62,15 +65,18 @@ export const updateUserById = asyncHandler(
     // --- Validation
     const validation = validateUpdate(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({message: validation.error.issues[0]?.message});
       return;
     }
 
     // --- Update User By Id Service
-    const result = await updateUserByIdService(req.params.id!, validation.data);
+    const result = (await updateUserByIdService(
+      req.params.id!,
+      validation.data,
+    )) as ServiceResult;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json({message: result.message});
       return;
     }
 
@@ -88,10 +94,12 @@ export const updateUserById = asyncHandler(
  */
 export const deleteUserById = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await deleteUserByIdService(req.params.id!);
+    const result = (await deleteUserByIdService(
+      req.params.id!,
+    )) as ServiceResult<{message: string}>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json({message: result.message});
       return;
     }
 
