@@ -16,12 +16,7 @@ import {
 } from "../services/password.service.js";
 
 // --- Types
-type ServiceResponse = {
-  success: boolean;
-  statusCode?: number;
-  message?: string;
-  data?: any;
-};
+import type { ServiceResult } from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -55,7 +50,7 @@ export const sendForgotPasswordLink = asyncHandler(
     // --- Service
     const result = (await sendForgotPasswordLinkService(
       validation.data,
-    )) as ServiceResponse;
+    )) as ServiceResult;
 
     // --- Failure
     if (!result.success) {
@@ -86,7 +81,7 @@ export const getResetPasswordView = asyncHandler(
     const result = (await getResetPasswordViewService(
       req.params.id!,
       req.params.token!,
-    )) as ServiceResponse;
+    )) as ServiceResult;
 
     // --- Failure
     if (!result.success) {
@@ -119,7 +114,7 @@ export const resetPassword = asyncHandler(
       req.params.id!,
       req.params.token!,
       validation.data.password,
-    )) as ServiceResponse;
+    )) as ServiceResult;
 
     // --- Failure
     if (!result.success) {
