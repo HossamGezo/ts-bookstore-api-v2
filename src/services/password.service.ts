@@ -7,7 +7,7 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 
 // --- Types
-import type {EmailSchemaDto} from "../validations/password.validation.js";
+import type { EmailSchemaDto } from "../validations/password.validation.js";
 import {
   failureResponse,
   notFoundResponse,
@@ -17,15 +17,15 @@ import {
 // --- Send Forgot Password Link Service
 export const sendForgotPasswordLinkService = async (data: EmailSchemaDto) => {
   // --- Existence
-  const user = await User.findOne({email: data.email});
+  const user = await User.findOne({ email: data.email });
   if (!user) {
     return notFoundResponse("user");
   }
 
   // --- Token
   const secret = process.env.JWT_SECRET_KEY! + user.password;
-  const token = jwt.sign({id: user._id, email: user.email}, secret, {
-    expiresIn: "10m",
+  const token = jwt.sign({ id: user._id, email: user.email }, secret, {
+    expiresIn: (process.env.PASSWORD_RESET_EXPIRES_IN! as any) || "10m",
   });
 
   // --- Link
@@ -57,7 +57,7 @@ export const sendForgotPasswordLinkService = async (data: EmailSchemaDto) => {
   };
   try {
     await transporter.sendMail(mailOptions);
-    return successResponse({message: "Reset link sent to your email"});
+    return successResponse({ message: "Reset link sent to your email" });
   } catch (error) {
     console.error("Email sending failed:", error);
     return failureResponse({
@@ -82,9 +82,9 @@ export const getResetPasswordViewService = async (
   const secret = process.env.JWT_SECRET_KEY! + user.password;
   try {
     jwt.verify(token!, secret);
-    return successResponse({email: user.email});
+    return successResponse({ email: user.email });
   } catch (error: any) {
-    return failureResponse({message: error.message});
+    return failureResponse({ message: error.message });
   }
 };
 
@@ -107,8 +107,8 @@ export const resetPasswordService = async (
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
     await user.save();
-    return successResponse({message: "Password has been reset successfully"});
+    return successResponse({ message: "Password has been reset successfully" });
   } catch (error: any) {
-    return failureResponse({message: error.message});
+    return failureResponse({ message: error.message });
   }
 };
