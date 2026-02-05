@@ -2,21 +2,24 @@
 import Author from "../models/Author.js";
 
 // --- Validations
-import type {AuthorDto} from "../validations/author.validation.js";
-import type {AuthorQueryDto} from "../validations/query.validation.js";
+import type { AuthorDto } from "../validations/author.validation.js";
+import type { AuthorQueryDto } from "../validations/query.validation.js";
 
 // --- Helpers
-import {queryOperations} from "../helpers/query.helper.js";
-import {notFoundResponse, successResponse} from "../helpers/response.helper.js";
+import { queryOperations } from "../helpers/query.helper.js";
+import {
+  notFoundResponse,
+  successResponse,
+} from "../helpers/response.helper.js";
 
 // --- Get All Authors with Pagination Service
 export const getAllAuthorsService = async (queryParams: AuthorQueryDto) => {
-  const {page} = queryParams;
+  const { page } = queryParams;
   const limit = Number(process.env.AUTHORS_PER_PAGE) || 2;
   const result = await queryOperations(Author, {
     page: page || 1,
     limit,
-    sort: {firstName: 1},
+    sort: { firstName: 1 },
   });
   return successResponse(result);
 };
@@ -41,8 +44,8 @@ export const createNewAuthorService = async (data: AuthorDto) => {
 export const updateAuthorByIdService = async (id: string, data: AuthorDto) => {
   const updatedAuthor = await Author.findByIdAndUpdate(
     id,
-    {$set: data},
-    {new: true},
+    { $set: data },
+    { new: true },
   );
   if (!updatedAuthor) {
     return notFoundResponse("Author");
@@ -58,5 +61,5 @@ export const deleteAuthorByIdService = async (id: string) => {
     return notFoundResponse("Author");
   }
 
-  return successResponse({message: "Author has been deleted"});
+  return successResponse({ message: "Author has been deleted" });
 };

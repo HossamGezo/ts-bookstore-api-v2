@@ -1,5 +1,5 @@
 // --- Libraries
-import {z} from "zod";
+import { z } from "zod";
 
 // --- User Register Schema
 const UserRegisterSchema = z
@@ -7,39 +7,30 @@ const UserRegisterSchema = z
     userName: z
       .string()
       .trim()
-      .min(3, {message: "UserName must be at least 3 characters"})
-      .max(20, {message: "UserName must not exceed 20 characters"}),
-    email: z.string().email({message: "Invalid Email Address"}).trim(),
+      .min(3, { message: "UserName must be at least 3 characters" })
+      .max(20, { message: "UserName must not exceed 20 characters" }),
+    email: z.string().trim().email({ message: "Invalid Email Address" }),
     password: z
       .string()
       .trim()
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter",
-      })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter",
-      })
-      .regex(/[0-9]/, {
-        message: "Password must contain at least one digit",
-      })
-      .regex(/\W/, {
-        message: "Password must contain at least one special character",
-      })
-      .min(8, {message: "Password must be at least 8 characters"}),
+      .regex(/^(?=.*\d)(?=.*\W)(?=.*[a-z])(?=.*[A-Z]).{8,}$/, {
+        message:
+          "Password must have at least 8 characters, including uppercase, lowercase, number, and special character.",
+      }),
     confirmPassword: z.string().trim(),
   })
-  .strict()
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  });
+  })
+  .strict();
 export type UserRegisterDto = z.infer<typeof UserRegisterSchema>;
 
 // --- User Login Schema
 const UserLoginSchema = z
   .object({
-    email: z.string().email({message: "Invalid Email Address"}).trim(),
-    password: z.string().min(1, {message: "Password is required"}),
+    email: z.string().trim().email({ message: "Invalid Email Address" }),
+    password: z.string().trim().min(1, { message: "Password is required" }),
   })
   .strict();
 export type UserLoginDto = z.infer<typeof UserLoginSchema>;
@@ -50,57 +41,25 @@ const UserUpdateSchema = z
     userName: z
       .string()
       .trim()
-      .min(3, {message: "UserName must be at least 3 characters"})
-      .max(20, {message: "UserName must not exceed 20 characters"})
+      .min(3, { message: "UserName must be at least 3 characters" })
+      .max(20, { message: "UserName must not exceed 20 characters" })
       .optional(),
     email: z
       .string()
-      .email({message: "Invalid Email Address"})
       .trim()
+      .email({ message: "Invalid Email Address" })
       .optional(),
     password: z
       .string()
       .trim()
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter",
+      .regex(/^(?=.*\d)(?=.*\W)(?=.*[a-z])(?=.*[A-Z]).{8,}$/, {
+        message:
+          "Password must have at least 8 characters, including uppercase, lowercase, number, and special character.",
       })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter",
-      })
-      .regex(/[0-9]/, {
-        message: "Password must contain at least one digit",
-      })
-      .regex(/\W/, {
-        message: "Password must contain at least one special character",
-      })
-      .min(8, {message: "Password must be at least 8 characters"})
       .optional(),
   })
   .strict();
 export type UserUpdateDto = z.infer<typeof UserUpdateSchema>;
-
-// --- User Change Password Schema
-const UserChangePasswordSchema = z
-  .object({
-    password: z
-      .string()
-      .trim()
-      .regex(/[A-Z]/, {
-        message: "Password must contain at least one uppercase letter",
-      })
-      .regex(/[a-z]/, {
-        message: "Password must contain at least one lowercase letter",
-      })
-      .regex(/[0-9]/, {
-        message: "Password must contain at least one digit",
-      })
-      .regex(/\W/, {
-        message: "Password must contain at least one special character",
-      })
-      .min(8, {message: "Password must be at least 8 characters"}),
-  })
-  .strict();
-export type UserChangePasswordDto = z.infer<typeof UserChangePasswordSchema>;
 
 // --- Validation Functions
 
@@ -119,11 +78,5 @@ export const validateLogin = (obj: unknown) => {
 // - Validate Update Function
 export const validateUpdate = (obj: unknown) => {
   const validation = UserUpdateSchema.safeParse(obj);
-  return validation;
-};
-
-// - Validate Change Password
-export const validateChangePassword = (obj: unknown) => {
-  const validation = UserChangePasswordSchema.safeParse(obj);
   return validation;
 };

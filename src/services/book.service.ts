@@ -2,23 +2,27 @@
 import Book from "../models/Book.js";
 
 // --- Validations
-import type {BookDto} from "../validations/book.validation.js";
-import type {BookQueryDto} from "../validations/query.validation.js";
+import type { BookDto } from "../validations/book.validation.js";
+import type { BookQueryDto } from "../validations/query.validation.js";
 
 // --- Helpers
-import {queryOperations} from "../helpers/query.helper.js";
-import {notFoundResponse, successResponse} from "../helpers/response.helper.js";
+import { queryOperations } from "../helpers/query.helper.js";
+import {
+  notFoundResponse,
+  successResponse,
+} from "../helpers/response.helper.js";
 
 // --- Get All Books with Filtering & Pagination Service
 export const getAllBooksService = async (queryParams: BookQueryDto) => {
-  const {minPrice, maxPrice, page} = queryParams;
+  const { minPrice, maxPrice, page } = queryParams;
 
   const limit = Number(process.env.BOOKS_PER_PAGE) || 2;
 
   // --- Filtering Logic
   let filter: any = {};
-  if (minPrice !== undefined) filter.price = {$gte: minPrice};
-  if (maxPrice !== undefined) filter.price = {...filter.price, $lte: maxPrice};
+  if (minPrice !== undefined) filter.price = { $gte: minPrice };
+  if (maxPrice !== undefined)
+    filter.price = { ...filter.price, $lte: maxPrice };
 
   // --- Population Options
   const populate = {
@@ -62,8 +66,8 @@ export const createNewBookService = async (data: BookDto) => {
 export const updateBookByIdService = async (id: string, data: BookDto) => {
   const updatedBook = await Book.findByIdAndUpdate(
     id,
-    {$set: data},
-    {new: true},
+    { $set: data },
+    { new: true },
   ).populate("authorId", ["firstName", "lastName", "nationality", "image"]);
 
   if (!updatedBook) {
@@ -80,5 +84,5 @@ export const deleteBookByIdService = async (id: string) => {
     return notFoundResponse("Book");
   }
 
-  return successResponse({message: "Book has been deleted"});
+  return successResponse({ message: "Book has been deleted" });
 };

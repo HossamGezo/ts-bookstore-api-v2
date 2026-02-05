@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import { validateBook } from "../validations/book.validation.js";
+import { validateBook, type BookDto } from "../validations/book.validation.js";
 import { BookQuerySchema } from "../validations/query.validation.js";
 
 // --- Services
@@ -14,6 +14,9 @@ import {
   getBookByIdService,
   updateBookByIdService,
 } from "../services/book.service.js";
+
+// --- Types
+import type { ServiceResult } from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -32,10 +35,10 @@ export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // ---- Get All Books Service
-  const result = await getAllBooksService(validation.data);
+  const result = (await getAllBooksService(validation.data)) as ServiceResult;
 
   // --- Response
-  res.status(200).json(result.data);
+  res.status(200).json(result);
   return;
 });
 
@@ -46,7 +49,9 @@ export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
  * @access public
  */
 export const getBookById = asyncHandler(async (req: Request, res: Response) => {
-  const result = await getBookByIdService(req.params.id!);
+  const result = (await getBookByIdService(
+    req.params.id!,
+  )) as ServiceResult<BookDto>;
 
   if (!result.success) {
     res.status(result.statusCode!).json({ message: result.message });
@@ -54,7 +59,7 @@ export const getBookById = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // --- Response
-  res.status(200).json(result.data);
+  res.status(200).json(result);
   return;
 });
 
@@ -74,10 +79,12 @@ export const createNewBook = asyncHandler(
     }
 
     // --- Create New Book Service
-    const result = await createNewBookService(validation.data);
+    const result = (await createNewBookService(
+      validation.data,
+    )) as ServiceResult;
 
     // --- Response
-    res.status(201).json(result.data);
+    res.status(201).json(result);
     return;
   },
 );
@@ -97,7 +104,10 @@ export const updateBookById = asyncHandler(
       return;
     }
 
-    const result = await updateBookByIdService(req.params.id!, validation.data);
+    const result = (await updateBookByIdService(
+      req.params.id!,
+      validation.data,
+    )) as ServiceResult;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -105,7 +115,7 @@ export const updateBookById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -118,7 +128,9 @@ export const updateBookById = asyncHandler(
  */
 export const deleteBookById = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await deleteBookByIdService(req.params.id!);
+    const result = (await deleteBookByIdService(
+      req.params.id!,
+    )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -126,7 +138,7 @@ export const deleteBookById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );

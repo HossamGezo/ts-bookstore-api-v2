@@ -1,5 +1,5 @@
 // --- Libraries
-import type {Request, Response} from "express";
+import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
@@ -16,12 +16,7 @@ import {
 } from "../services/password.service.js";
 
 // --- Types
-type ServiceResponse = {
-  success: boolean;
-  statusCode?: number;
-  message?: string;
-  data?: any;
-};
+import type { ServiceResult } from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -48,18 +43,18 @@ export const sendForgotPasswordLink = asyncHandler(
     // --- Validation
     const validation = validateEmail(req.body);
     if (!validation.success) {
-      res.status(400).json({message: validation.error.issues[0]?.message});
+      res.status(400).json({ message: validation.error.issues[0]?.message });
       return;
     }
 
     // --- Service
     const result = (await sendForgotPasswordLinkService(
       validation.data,
-    )) as ServiceResponse;
+    )) as ServiceResult;
 
     // --- Failure
     if (!result.success) {
-      res.status(result.statusCode!).json({message: result.message});
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
@@ -78,7 +73,7 @@ export const getResetPasswordView = asyncHandler(
   async (req: Request, res: Response) => {
     // --- Invalid
     if (!req.params.id && !req.params.token) {
-      res.status(400).json({message: "Invalid Request!"});
+      res.status(400).json({ message: "Invalid Request!" });
       return;
     }
 
@@ -86,16 +81,16 @@ export const getResetPasswordView = asyncHandler(
     const result = (await getResetPasswordViewService(
       req.params.id!,
       req.params.token!,
-    )) as ServiceResponse;
+    )) as ServiceResult;
 
     // --- Failure
     if (!result.success) {
-      res.status(result.statusCode!).json({message: result.message});
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
     // --- Response
-    res.render("reset-password", {email: result.data.email});
+    res.render("reset-password", { email: result.data.email });
   },
 );
 
@@ -110,7 +105,7 @@ export const resetPassword = asyncHandler(
     // --- Validation
     const validation = validatePassword(req.body);
     if (!validation.success) {
-      res.status(400).json({message: validation.error.issues[0]?.message});
+      res.status(400).json({ message: validation.error.issues[0]?.message });
       return;
     }
 
@@ -119,11 +114,11 @@ export const resetPassword = asyncHandler(
       req.params.id!,
       req.params.token!,
       validation.data.password,
-    )) as ServiceResponse;
+    )) as ServiceResult;
 
     // --- Failure
     if (!result.success) {
-      res.status(result.statusCode!).json({message: result.message});
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 

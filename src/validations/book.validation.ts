@@ -15,9 +15,12 @@ const BookSchema = z
       .trim()
       .min(3, { message: "Author Name must be at least 3 characters" })
       .max(20, { message: "Author Name must not exceed 20 characters" }),
-    authorId: z.string().refine((val) => mongoose.Types.ObjectId.isValid(val), {
-      message: "Invalid Author ID",
-    }),
+    authorId: z
+      .string()
+      .trim()
+      .refine((val) => mongoose.Types.ObjectId.isValid(val), {
+        message: "Invalid Author ID",
+      }),
     description: z
       .string()
       .trim()
@@ -26,6 +29,7 @@ const BookSchema = z
     price: z.number().min(0, { message: "Price cannot be less than 0" }),
     cover: z
       .string()
+      .trim()
       .transform((val) => val.toLocaleLowerCase())
       .refine((val) => ["soft cover", "hard cover"].includes(val), {
         message: "Only 'soft cover' or 'hard cover' are supported",

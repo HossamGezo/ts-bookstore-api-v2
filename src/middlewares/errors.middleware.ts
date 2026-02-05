@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import { failureResponse } from "../helpers/response.helper.js";
 
 /**
  * @desc Handle 404 Routes
@@ -33,8 +34,19 @@ export const errorHandler = (
     message = "Duplicate field value entered";
   }
 
+  // --- Multer Errors
+  if (err.name === "MulterError") {
+    statusCode = 400;
+  }
+
+  // --- Response Message
+  const result = failureResponse({
+    statusCode,
+    message,
+  });
+
   res.status(statusCode).json({
-    message: message,
+    ...result,
     stack: process.env.NODE_ENV === "production" ? null : err.stack,
   });
 };

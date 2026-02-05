@@ -1,6 +1,13 @@
 // --- Libraries
 import express from "express";
 
+// --- Middlewares
+import {
+  verifyTokenAndAdmin,
+  verifyTokenAndAuthorization,
+} from "../middlewares/verifyToken.middleware.js";
+import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+
 // --- Users Controller Methods (Verbs)
 import {
   getAllUsers,
@@ -8,13 +15,6 @@ import {
   updateUserById,
   deleteUserById,
 } from "../controllers/user.controller.js";
-
-// --- Middlewares
-import {
-  verifyTokenAndAdmin,
-  verifyTokenAndAuthorization,
-} from "../middlewares/verifyToken.middleware.js";
-import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
 
 // --- UserRouter
 const UserRouter = express.Router();

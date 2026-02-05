@@ -14,6 +14,9 @@ import {
 } from "../services/user.service.js";
 import { UserQuerySchema } from "../validations/query.validation.js";
 
+// --- Types
+import type { ServiceResult } from "../types/service.js";
+
 /**
  * @desc Get All Users
  * @route /api/users
@@ -28,8 +31,8 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
     return;
   }
 
-  const result = await getAllUsersService(validation.data);
-  res.status(200).json(result.data);
+  const result = (await getAllUsersService(validation.data)) as ServiceResult;
+  res.status(200).json(result);
   return;
 });
 
@@ -40,14 +43,14 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
  * @access private (only admin & user himself)
  */
 export const getUserById = asyncHandler(async (req: Request, res: Response) => {
-  const result = await getUserByIdService(req.params.id!);
+  const result = (await getUserByIdService(req.params.id!)) as ServiceResult;
 
   if (!result.success) {
     res.status(result.statusCode!).json({ message: result.message });
     return;
   }
 
-  res.status(200).json(result.data);
+  res.status(200).json(result);
   return;
 });
 
@@ -67,7 +70,10 @@ export const updateUserById = asyncHandler(
     }
 
     // --- Update User By Id Service
-    const result = await updateUserByIdService(req.params.id!, validation.data);
+    const result = (await updateUserByIdService(
+      req.params.id!,
+      validation.data,
+    )) as ServiceResult;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -75,7 +81,7 @@ export const updateUserById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -88,7 +94,9 @@ export const updateUserById = asyncHandler(
  */
 export const deleteUserById = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await deleteUserByIdService(req.params.id!);
+    const result = (await deleteUserByIdService(
+      req.params.id!,
+    )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -96,7 +104,7 @@ export const deleteUserById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );

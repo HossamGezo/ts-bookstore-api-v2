@@ -3,7 +3,10 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import { validateAuthor } from "../validations/author.validation.js";
+import {
+  validateAuthor,
+  type AuthorDto,
+} from "../validations/author.validation.js";
 
 // --- services
 import {
@@ -14,6 +17,9 @@ import {
   updateAuthorByIdService,
 } from "../services/author.service.js";
 import { AuthorQuerySchema } from "../validations/query.validation.js";
+
+// --- Types
+import type { ServiceResult } from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -32,10 +38,12 @@ export const getAllAuthors = asyncHandler(
       return;
     }
 
-    const result = await getAllAuthorsService(validation.data);
+    const result = (await getAllAuthorsService(
+      validation.data,
+    )) as ServiceResult;
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -48,7 +56,9 @@ export const getAllAuthors = asyncHandler(
  */
 export const getAuthorById = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await getAuthorByIdService(req.params.id!);
+    const result = (await getAuthorByIdService(
+      req.params.id!,
+    )) as ServiceResult;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -56,7 +66,7 @@ export const getAuthorById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -77,10 +87,12 @@ export const createNewAuthor = asyncHandler(
     }
 
     // --- Inject Author to database
-    const result = await createNewAuthorService(validation.data);
+    const result = (await createNewAuthorService(
+      validation.data,
+    )) as ServiceResult<AuthorDto>;
 
     // --- Response
-    res.status(201).json(result.data);
+    res.status(201).json(result);
     return;
   },
 );
@@ -101,10 +113,10 @@ export const updateAuthorById = asyncHandler(
     }
 
     // --- Update Author By Id service
-    const result = await updateAuthorByIdService(
+    const result = (await updateAuthorByIdService(
       req.params.id!,
       validation.data,
-    );
+    )) as ServiceResult<AuthorDto>;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -112,7 +124,7 @@ export const updateAuthorById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -125,7 +137,9 @@ export const updateAuthorById = asyncHandler(
  */
 export const deleteAuthorById = asyncHandler(
   async (req: Request, res: Response) => {
-    const result = await deleteAuthorByIdService(req.params.id!);
+    const result = (await deleteAuthorByIdService(
+      req.params.id!,
+    )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
@@ -133,7 +147,7 @@ export const deleteAuthorById = asyncHandler(
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );

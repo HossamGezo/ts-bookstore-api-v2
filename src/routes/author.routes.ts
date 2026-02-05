@@ -1,6 +1,10 @@
 // --- Libraries
 import express from "express";
 
+// --- Middlewares
+import { verifyTokenAndAdmin } from "../middlewares/verifyToken.middleware.js";
+import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+
 // --- Authors Controller Methods (Verbs)
 import {
   createNewAuthor,
@@ -9,10 +13,6 @@ import {
   getAuthorById,
   updateAuthorById,
 } from "../controllers/author.controller.js";
-
-// --- Middlewares
-import { verifyTokenAndAdmin } from "../middlewares/verifyToken.middleware.js";
-import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
 
 // --- Router
 const AuthorRouter = express.Router();

@@ -5,18 +5,21 @@ import bcrypt from "bcryptjs";
 import User from "../models/User.js";
 
 // --- Validations
-import type {UserUpdateDto} from "../validations/user.validation.js";
-import type {UserQueryDto} from "../validations/query.validation.js";
+import type { UserUpdateDto } from "../validations/user.validation.js";
+import type { UserQueryDto } from "../validations/query.validation.js";
 
 // --- Helpers
-import {queryOperations} from "../helpers/query.helper.js";
-import {notFoundResponse, successResponse} from "../helpers/response.helper.js";
+import { queryOperations } from "../helpers/query.helper.js";
+import {
+  notFoundResponse,
+  successResponse,
+} from "../helpers/response.helper.js";
 
 // --- Get All Users Service
 export const getAllUsersService = async (queryParams: UserQueryDto) => {
-  const {page} = queryParams;
+  const { page } = queryParams;
   const limit = Number(process.env.USERS_PER_PAGE) || 5;
-  const result = await queryOperations(User, {page: page || 1, limit});
+  const result = await queryOperations(User, { page: page || 1, limit });
   return successResponse(result);
 };
 
@@ -42,8 +45,8 @@ export const updateUserByIdService = async (
 
   const updatedUser = await User.findByIdAndUpdate(
     id,
-    {$set: data},
-    {new: true},
+    { $set: data },
+    { new: true },
   );
 
   if (!updatedUser) {
@@ -58,5 +61,5 @@ export const deleteUserByIdService = async (id: string) => {
   if (!user) {
     return notFoundResponse("User");
   }
-  return successResponse({message: "User has been deleted successfully"});
+  return successResponse({ message: "User has been deleted successfully" });
 };
