@@ -33,14 +33,16 @@ export const registerUser = asyncHandler(
     }
 
     // --- Register User Service
-    const result = await registerUserService(validation.data) as ServiceResult;
+    const result = (await registerUserService(
+      validation.data,
+    )) as ServiceResult;
 
     if (!result.success) {
       res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
-    res.status(201).json(result.data);
+    res.status(201).json(result);
   },
 );
 
@@ -59,12 +61,12 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   }
 
   // --- Login User Service
-  const result = await loginUserService(validation.data) as ServiceResult;
+  const result = (await loginUserService(validation.data)) as ServiceResult;
 
   if (!result.success) {
     res.status(result.statusCode!).json({ message: result.message });
     return;
   }
 
-  res.status(200).json(result.data);
+  res.status(200).json(result);
 });

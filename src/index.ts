@@ -1,6 +1,6 @@
 // --- Libraries
 import express from "express";
-import {config} from "dotenv";
+import { config } from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 import path from "path";
@@ -13,7 +13,7 @@ import connectToDB from "./config/db.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.middleware.js";
-import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
+import { errorHandler, notFound } from "./middlewares/errors.middleware.js";
 
 // --- Router Files
 import AuthRouter from "./routes/auth.routes.js";
@@ -21,13 +21,14 @@ import PasswordRouter from "./routes/password.routes.js";
 import UserRouter from "./routes/user.routes.js";
 import AuthorRouter from "./routes/author.routes.js";
 import BookRouter from "./routes/book.routes.js";
+import UploadRouter from "./routes/upload.routes.js";
 
 // --- Init App
 const app = express();
 
 // --- Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: false})); // Allow Express to read form data from HTML forms
+app.use(express.urlencoded({ extended: false })); // Allow Express to read form data from HTML forms
 app.use(logger);
 
 // --- Helmet
@@ -52,6 +53,7 @@ app.use("/password", PasswordRouter);
 app.use("/api/users", UserRouter);
 app.use("/api/authors", AuthorRouter);
 app.use("/api/books", BookRouter);
+app.use("/api/upload", UploadRouter);
 
 // --- Error Middlewares
 app.use(notFound);

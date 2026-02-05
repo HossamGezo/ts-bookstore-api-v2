@@ -1,5 +1,5 @@
 // --- Libraries
-import type {Request, Response} from "express";
+import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
@@ -19,7 +19,7 @@ import {
 import { AuthorQuerySchema } from "../validations/query.validation.js";
 
 // --- Types
-import type {ServiceResult} from "../types/service.js";
+import type { ServiceResult } from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -34,7 +34,7 @@ export const getAllAuthors = asyncHandler(
     const validation = AuthorQuerySchema.safeParse(req.query);
 
     if (!validation.success) {
-      res.status(400).json({message: validation.error.issues[0]?.message});
+      res.status(400).json({ message: validation.error.issues[0]?.message });
       return;
     }
 
@@ -43,7 +43,7 @@ export const getAllAuthors = asyncHandler(
     )) as ServiceResult;
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -61,12 +61,12 @@ export const getAuthorById = asyncHandler(
     )) as ServiceResult;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({message: result.message});
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -82,7 +82,7 @@ export const createNewAuthor = asyncHandler(
     // --- Validation
     const validation = validateAuthor(req.body);
     if (!validation.success) {
-      res.status(400).json({message: validation.error.issues[0]?.message});
+      res.status(400).json({ message: validation.error.issues[0]?.message });
       return;
     }
 
@@ -92,7 +92,7 @@ export const createNewAuthor = asyncHandler(
     )) as ServiceResult<AuthorDto>;
 
     // --- Response
-    res.status(201).json(result.data);
+    res.status(201).json(result);
     return;
   },
 );
@@ -108,7 +108,7 @@ export const updateAuthorById = asyncHandler(
     // --- Validation
     const validation = validateAuthor(req.body);
     if (!validation.success) {
-      res.status(400).json({message: validation.error.issues[0]?.message});
+      res.status(400).json({ message: validation.error.issues[0]?.message });
       return;
     }
 
@@ -119,12 +119,12 @@ export const updateAuthorById = asyncHandler(
     )) as ServiceResult<AuthorDto>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({message: result.message});
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
@@ -139,15 +139,15 @@ export const deleteAuthorById = asyncHandler(
   async (req: Request, res: Response) => {
     const result = (await deleteAuthorByIdService(
       req.params.id!,
-    )) as ServiceResult<{message: string}>;
+    )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({message: result.message});
+      res.status(result.statusCode!).json({ message: result.message });
       return;
     }
 
     // --- Response
-    res.status(200).json(result.data);
+    res.status(200).json(result);
     return;
   },
 );
