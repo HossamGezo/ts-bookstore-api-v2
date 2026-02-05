@@ -1,5 +1,5 @@
 // --- Libraries
-import {z} from "zod";
+import { z } from "zod";
 
 // --- User Register Schema
 const UserRegisterSchema = z
@@ -7,9 +7,9 @@ const UserRegisterSchema = z
     userName: z
       .string()
       .trim()
-      .min(3, {message: "UserName must be at least 3 characters"})
-      .max(20, {message: "UserName must not exceed 20 characters"}),
-    email: z.string().trim().email({message: "Invalid Email Address"}),
+      .min(3, { message: "UserName must be at least 3 characters" })
+      .max(20, { message: "UserName must not exceed 20 characters" }),
+    email: z.string().trim().email({ message: "Invalid Email Address" }),
     password: z
       .string()
       .trim()
@@ -29,8 +29,8 @@ export type UserRegisterDto = z.infer<typeof UserRegisterSchema>;
 // --- User Login Schema
 const UserLoginSchema = z
   .object({
-    email: z.string().trim().email({message: "Invalid Email Address"}),
-    password: z.string().trim().min(1, {message: "Password is required"}),
+    email: z.string().trim().email({ message: "Invalid Email Address" }),
+    password: z.string().trim().min(1, { message: "Password is required" }),
   })
   .strict();
 export type UserLoginDto = z.infer<typeof UserLoginSchema>;
@@ -41,13 +41,13 @@ const UserUpdateSchema = z
     userName: z
       .string()
       .trim()
-      .min(3, {message: "UserName must be at least 3 characters"})
-      .max(20, {message: "UserName must not exceed 20 characters"})
+      .min(3, { message: "UserName must be at least 3 characters" })
+      .max(20, { message: "UserName must not exceed 20 characters" })
       .optional(),
     email: z
       .string()
       .trim()
-      .email({message: "Invalid Email Address"})
+      .email({ message: "Invalid Email Address" })
       .optional(),
     password: z
       .string()

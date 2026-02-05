@@ -1,10 +1,10 @@
 // --- Libraries
-import {z} from "zod";
+import { z } from "zod";
 
 // --- Email Schema
 const EmailSchema = z
   .object({
-    email: z.string().trim().email({message: "Invalid Email Address"}).trim(),
+    email: z.string().trim().email({ message: "Invalid Email Address" }).trim(),
   })
   .strict();
 
