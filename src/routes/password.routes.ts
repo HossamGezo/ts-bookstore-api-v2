@@ -1,6 +1,9 @@
 // --- Libraries
 import express from "express";
 
+// --- Middlewares
+import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+
 // --- Password Controller Methods (Verbs)
 import {
   getForgotPasswordView,
@@ -8,9 +11,6 @@ import {
   resetPassword,
   sendForgotPasswordLink,
 } from "../controllers/password.controller.js";
-
-// --- Middlewares
-import {validateObjectId} from "../middlewares/validateObjectId.middleware.js";
 
 // --- Router
 const PasswordRouter = express.Router();
