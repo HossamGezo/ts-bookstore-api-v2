@@ -1,0 +1,21 @@
+# Dependency directories
+node_modules/
+
+# Build output
+dist/
+
+# Environment variable files
+.env
+.env.*
+!.env.example
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Version control
+.git
+
+# Logs and debug files
+npm-debug.log*
+*.tsbuildinfo
