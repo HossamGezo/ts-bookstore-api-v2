@@ -17,12 +17,12 @@
     "format": "prettier --write .",
     "gen-secret": "node -e \"console.log(require('crypto').randomBytes(32).toString('hex'))\"",
     "tree": "tree -I 'node_modules|dist'",
-    "seed:users": "tsx src/seeders/users.seeder.ts -seed",
-    "delete:users": "tsx src/seeders/users.seeder.ts -delete",
-    "seed:authors": "tsx src/seeders/authors.seeder.ts -seed",
-    "delete:authors": "tsx src/seeders/authors.seeder.ts -delete",
-    "seed:books": "tsx src/seeders/books.seeder.ts -seed",
-    "delete:books": "tsx src/seeders/books.seeder.ts -delete"
+    "seed:users": "tsx src/seeders/user.seeder.ts -seed",
+    "delete:users": "tsx src/seeders/user.seeder.ts -delete",
+    "seed:authors": "tsx src/seeders/author.seeder.ts -seed",
+    "delete:authors": "tsx src/seeders/author.seeder.ts -delete",
+    "seed:books": "tsx src/seeders/book.seeder.ts -seed",
+    "delete:books": "tsx src/seeders/book.seeder.ts -delete"
   },
   "repository": {
     "type": "git",

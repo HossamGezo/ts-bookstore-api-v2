@@ -12,6 +12,7 @@ dist/
 # Docker files
 Dockerfile
 .dockerignore
+docker-compose*
 
 # Version control
 .git

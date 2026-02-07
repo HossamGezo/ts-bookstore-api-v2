@@ -1,22 +1,23 @@
-version: "3.8"
-
 services:
   # Database
   mongodb:
     image: mongo:latest
-    container_name: bookstore_db
+    container_name: bookstore_db_container
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
   # API
   api:
+    image: hossam/bookstore-api:v2
     build: .
-    container_name: bookstore_api
+    container_name: bookstore_api_container
     ports: 
       - "5001:5001"
     env_file:
       - ".env"
+    volumes:
+      - ./public/images:/app/public/images
     depends_on:
       - mongodb
 
