@@ -1,5 +1,5 @@
 // --- Libraries
-import type { Request, Response } from "express";
+import type {Request, Response} from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Local Files
@@ -13,7 +13,7 @@ import {
 } from "../services/auth.service.js";
 
 // --- Types
-import type { ServiceResult } from "../types/service.js";
+import type {ServiceResult} from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
@@ -28,7 +28,11 @@ export const registerUser = asyncHandler(
     // --- Validation
     const validation = validateRegister(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -38,7 +42,7 @@ export const registerUser = asyncHandler(
     )) as ServiceResult;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -56,7 +60,11 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   // --- Validation
   const validation = validateLogin(req.body);
   if (!validation.success) {
-    res.status(400).json({ message: validation.error.issues[0]?.message });
+    res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: validation.error.issues[0]?.message,
+    });
     return;
   }
 
@@ -64,7 +72,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const result = (await loginUserService(validation.data)) as ServiceResult;
 
   if (!result.success) {
-    res.status(result.statusCode!).json({ message: result.message });
+    res.status(result.statusCode!).json(result);
     return;
   }
 
