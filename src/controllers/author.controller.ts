@@ -34,7 +34,11 @@ export const getAllAuthors = asyncHandler(
     const validation = AuthorQuerySchema.safeParse(req.query);
 
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -61,7 +65,7 @@ export const getAuthorById = asyncHandler(
     )) as ServiceResult;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -82,7 +86,11 @@ export const createNewAuthor = asyncHandler(
     // --- Validation
     const validation = validateAuthor(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -108,7 +116,11 @@ export const updateAuthorById = asyncHandler(
     // --- Validation
     const validation = validateAuthor(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -119,7 +131,7 @@ export const updateAuthorById = asyncHandler(
     )) as ServiceResult<AuthorDto>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -142,7 +154,7 @@ export const deleteAuthorById = asyncHandler(
     )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 

@@ -27,7 +27,11 @@ export const getAllUsers = asyncHandler(async (req: Request, res: Response) => {
   const validation = UserQuerySchema.safeParse(req.query);
 
   if (!validation.success) {
-    res.status(400).json({ message: validation.error.issues[0]?.message });
+    res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: validation.error.issues[0]?.message,
+    });
     return;
   }
 
@@ -46,7 +50,7 @@ export const getUserById = asyncHandler(async (req: Request, res: Response) => {
   const result = (await getUserByIdService(req.params.id!)) as ServiceResult;
 
   if (!result.success) {
-    res.status(result.statusCode!).json({ message: result.message });
+    res.status(result.statusCode!).json(result);
     return;
   }
 
@@ -65,7 +69,11 @@ export const updateUserById = asyncHandler(
     // --- Validation
     const validation = validateUpdate(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -76,7 +84,7 @@ export const updateUserById = asyncHandler(
     )) as ServiceResult;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -99,7 +107,7 @@ export const deleteUserById = asyncHandler(
     )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 

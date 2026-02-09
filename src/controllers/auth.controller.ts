@@ -1,5 +1,5 @@
 // --- Libraries
-import type {Request, Response} from "express";
+import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Local Files
@@ -13,7 +13,7 @@ import {
 } from "../services/auth.service.js";
 
 // --- Types
-import type {ServiceResult} from "../types/service.js";
+import type { ServiceResult } from "../types/service.js";
 
 // --- HTTP Methods (Verbs)
 
