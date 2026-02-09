@@ -1,10 +1,10 @@
 // --- Libraries
 import express from "express";
-import {config} from "dotenv";
+import { config } from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 import path from "path";
-import {serve, setup} from "swagger-ui-express";
+import { serve, setup } from "swagger-ui-express";
 import livereload from "livereload";
 import connectLivereload from "connect-livereload";
 
@@ -17,7 +17,7 @@ import swaggerSpec from "./config/swagger.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.middleware.js";
-import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
+import { errorHandler, notFound } from "./middlewares/errors.middleware.js";
 
 // --- Router Files
 import AuthRouter from "./routes/auth.routes.js";
@@ -30,28 +30,35 @@ import UploadRouter from "./routes/upload.routes.js";
 // --- Init App
 const app = express();
 
+// NOTE - [REF-01] Live Reload
 // --- Live Reload (DEV ONLY)
 if (process.env.NODE_ENV === "development") {
-  // --- Watch public directory
-  const liveReloadServer = livereload.createServer();
-  liveReloadServer.watch(path.join(process.cwd(), "public"));
-   // --- Auto reload after first connection
-  liveReloadServer.server.once("connection", () => {
-    setTimeout(() => {
-      liveReloadServer.refresh("/");
-    }, 100);
+  const liveReloadServer = livereload.createServer({
+    exts: ["ejs", "css", "js", "png", "jpg"],
+    debug: true,
   });
-  // --- Inject script into HTML so browser can reload
+
+  liveReloadServer.watch([
+    path.join(process.cwd(), "public"),
+    path.join(process.cwd(), "views"),
+  ]);
+
   app.use(connectLivereload());
 }
 
 // --- Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: false})); // Allow Express to read form data from HTML forms
+app.use(express.urlencoded({ extended: false })); // Allow Express to read form data from HTML forms
 app.use(logger);
 
 // --- Helmet
-app.use(helmet());
+if (process.env.NODE_ENV === "development") {
+  app.use(
+    helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }),
+  );
+} else {
+  app.use(helmet());
+}
 
 // --- Cors
 app.use(
