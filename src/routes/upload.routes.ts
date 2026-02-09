@@ -2,10 +2,10 @@
 import express from "express";
 
 // --- Middlewares
-import {upload} from "../middlewares/upload.middleware.js";
+import { upload } from "../middlewares/upload.middleware.js";
 
 // --- Upload Image Controller Methods (Verbs)
-import {uploadImage} from "../controllers/upload.controller.js";
+import { uploadImage } from "../controllers/upload.controller.js";
 
 // --- Router
 const UploadRouter = express.Router();

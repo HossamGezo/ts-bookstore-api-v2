@@ -2,7 +2,7 @@
 import express from "express";
 
 // --- Middlewares
-import {validateObjectId} from "../middlewares/validateObjectId.middleware.js";
+import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
 
 // --- Password Controller Methods (Verbs)
 import {
