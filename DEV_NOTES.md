@@ -34,16 +34,21 @@ liveReloadServer.watch([
   path.join(process.cwd(), "views"),
 ]);
 ```
+
 ## [REF-02] Linting & Husky Setup
 
 ### 1. Installation
+
 To avoid dependency conflicts between ESLint 10 and TypeScript plugins, use version 9:
+
 ```bash
 npm install --save-dev eslint@^9.19.0 @eslint/js@^9.19.0 typescript-eslint husky
 ```
 
 ### 2. ESLint Configuration (`eslint.config.mjs`)
+
 The file uses the `.mjs` extension because the project is configured as an ES Module (`"type": "module"`). It defines rules for code analysis:
+
 ```javascript
 import eslint from "@eslint/js";
 import tseslint from "typescript-eslint";
@@ -76,7 +81,9 @@ export default [
 ```
 
 ### 3. Scripts Setup (`package.json`)
+
 Added scripts to handle linting and type checking without generating build files:
+
 ```json
 "scripts": {
   "lint": "eslint .",
@@ -85,16 +92,21 @@ Added scripts to handle linting and type checking without generating build files
   "prepare": "husky"
 }
 ```
-*Note: `--noEmit` ensures TypeScript checks for errors without creating `.js` files in the source directory.*
+
+_Note: `--noEmit` ensures TypeScript checks for errors without creating `.js` files in the source directory._
 
 ### 4. Husky Initialization
+
 Initialize the Husky "gatekeeper" to manage Git hooks:
+
 ```bash
 npx husky init
 ```
 
 ### 5. Pre-commit Hook Configuration
+
 Modify the `.husky/pre-commit` file to enforce quality checks before every commit:
+
 ```bash
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
@@ -102,4 +114,5 @@ Modify the `.husky/pre-commit` file to enforce quality checks before every commi
 # Run formatting, linting, and type-checking
 npm run format && npm run lint && npm run check-types
 ```
-*If any of these commands fail, the commit is blocked until the code is fixed.*
+
+_If any of these commands fail, the commit is blocked until the code is fixed._
