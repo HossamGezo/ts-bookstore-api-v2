@@ -19,7 +19,7 @@ export const getAllBooksService = async (queryParams: BookQueryDto) => {
   const limit = Number(process.env.BOOKS_PER_PAGE) || 2;
 
   // --- Filtering Logic
-  let filter: any = {};
+  const filter: any = {};
   if (minPrice !== undefined) filter.price = { $gte: minPrice };
   if (maxPrice !== undefined)
     filter.price = { ...filter.price, $lte: maxPrice };

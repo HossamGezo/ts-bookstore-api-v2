@@ -30,7 +30,11 @@ export const getAllBooks = asyncHandler(async (req: Request, res: Response) => {
   // --- Validation
   const validation = BookQuerySchema.safeParse(req.query);
   if (!validation.success) {
-    res.status(400).json({ message: validation.error.issues[0]?.message });
+    res.status(400).json({
+      success: false,
+      statusCode: 400,
+      message: validation.error.issues[0]?.message,
+    });
     return;
   }
 
@@ -54,7 +58,7 @@ export const getBookById = asyncHandler(async (req: Request, res: Response) => {
   )) as ServiceResult<BookDto>;
 
   if (!result.success) {
-    res.status(result.statusCode!).json({ message: result.message });
+    res.status(result.statusCode!).json(result);
     return;
   }
 
@@ -74,7 +78,11 @@ export const createNewBook = asyncHandler(
     // --- Validation
     const validation = validateBook(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -100,7 +108,11 @@ export const updateBookById = asyncHandler(
     // --- Validation
     const validation = validateBook(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -110,7 +122,7 @@ export const updateBookById = asyncHandler(
     )) as ServiceResult;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -133,7 +145,7 @@ export const deleteBookById = asyncHandler(
     )) as ServiceResult<{ message: string }>;
 
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 

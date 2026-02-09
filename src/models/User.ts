@@ -32,6 +32,23 @@ const MongoUserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
+    // Note: not best practice ... best practice at mongoose.helper.ts
+    // toJSON: {
+    //   transform: (_doc, ret: any) => {
+    //     ret.id = ret._id;
+    //     delete ret._id;
+    //     delete ret.__v;
+    //     return ret;
+    //   },
+    // },
+    // toObject: {
+    //   transform: (_doc, ret: any) => {
+    //     ret.id = ret._id;
+    //     delete ret._id;
+    //     delete ret.__v;
+    //     return ret;
+    //   },
+    // },
   },
 );
 

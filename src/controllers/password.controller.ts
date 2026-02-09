@@ -43,7 +43,11 @@ export const sendForgotPasswordLink = asyncHandler(
     // --- Validation
     const validation = validateEmail(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -54,7 +58,7 @@ export const sendForgotPasswordLink = asyncHandler(
 
     // --- Failure
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -85,7 +89,7 @@ export const getResetPasswordView = asyncHandler(
 
     // --- Failure
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 
@@ -105,7 +109,11 @@ export const resetPassword = asyncHandler(
     // --- Validation
     const validation = validatePassword(req.body);
     if (!validation.success) {
-      res.status(400).json({ message: validation.error.issues[0]?.message });
+      res.status(400).json({
+        success: false,
+        statusCode: 400,
+        message: validation.error.issues[0]?.message,
+      });
       return;
     }
 
@@ -118,7 +126,7 @@ export const resetPassword = asyncHandler(
 
     // --- Failure
     if (!result.success) {
-      res.status(result.statusCode!).json({ message: result.message });
+      res.status(result.statusCode!).json(result);
       return;
     }
 

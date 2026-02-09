@@ -45,7 +45,7 @@ export const registerUserService = async (data: UserRegisterDto) => {
   );
 
   // --- Return user without password + token
-  const { password, ...userWithoutPassword } = newUser.toObject();
+  const { password: _password, ...userWithoutPassword } = newUser.toObject();
   return successResponse({ ...userWithoutPassword, token });
 };
 
@@ -54,13 +54,19 @@ export const loginUserService = async (data: UserLoginDto) => {
   // --- Find User
   const user = await User.findOne({ email: data.email }).select("+password");
   if (!user) {
-    return failureResponse({ message: "Invalid email or password" });
+    return failureResponse({
+      message: "Invalid email or password",
+      statusCode: 401,
+    });
   }
 
   // --- Check Password
   const isPasswordMatch = await bcrypt.compare(data.password, user.password);
   if (!isPasswordMatch) {
-    return failureResponse({ message: "Invalid email or password" });
+    return failureResponse({
+      message: "Invalid email or password",
+      statusCode: 401,
+    });
   }
 
   // --- Generate Token
@@ -71,6 +77,6 @@ export const loginUserService = async (data: UserLoginDto) => {
   );
 
   // --- Return user without password + token
-  const { password, ...userWithoutPassword } = user.toObject();
+  const { password: _password, ...userWithoutPassword } = user.toObject();
   return successResponse({ ...userWithoutPassword, token });
 };

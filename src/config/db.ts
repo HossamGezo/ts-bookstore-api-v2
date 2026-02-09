@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import { globalSchemaPlugin } from "../helpers/mongoose.helper.js";
+
+// Mongose plugin
+mongoose.plugin(globalSchemaPlugin);
 
 const connectToDB = async () => {
   // Ensure MONGO_URI exists (TypeScript safety check)

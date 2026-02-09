@@ -4,12 +4,16 @@ import { config } from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 import path from "path";
+import { serve, setup } from "swagger-ui-express";
+import livereload from "livereload";
+import connectLivereload from "connect-livereload";
 
 // --- Load environment variables from .env file
 config();
 
-// --- Database
+// --- Configurations
 import connectToDB from "./config/db.js";
+import swaggerSpec from "./config/swagger.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.middleware.js";
@@ -26,13 +30,35 @@ import UploadRouter from "./routes/upload.routes.js";
 // --- Init App
 const app = express();
 
+// NOTE - [REF-01] Live Reload
+// --- Live Reload (DEV ONLY)
+if (process.env.NODE_ENV === "development") {
+  const liveReloadServer = livereload.createServer({
+    exts: ["ejs", "css", "js", "png", "jpg"],
+    debug: true,
+  });
+
+  liveReloadServer.watch([
+    path.join(process.cwd(), "public"),
+    path.join(process.cwd(), "views"),
+  ]);
+
+  app.use(connectLivereload());
+}
+
 // --- Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Allow Express to read form data from HTML forms
 app.use(logger);
 
 // --- Helmet
-app.use(helmet());
+if (process.env.NODE_ENV === "development") {
+  app.use(
+    helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }),
+  );
+} else {
+  app.use(helmet());
+}
 
 // --- Cors
 app.use(
@@ -46,6 +72,9 @@ app.use(
 app.use(express.static(path.join(process.cwd(), "public"))); // Expose the "public" folder to serve static assets
 app.set("views", path.join(process.cwd(), "views")); // Tell Express where the views (EJS templates) live
 app.set("view engine", "ejs");
+
+// --- Swagger UI Route
+app.use("/api-docs", serve, setup(swaggerSpec));
 
 // --- Routers
 app.use("/api/auth", AuthRouter);
