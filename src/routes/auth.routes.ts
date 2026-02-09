@@ -2,7 +2,7 @@
 import express from "express";
 
 // --- Auth Controller Methods (Verbs)
-import {loginUser, registerUser} from "../controllers/auth.controller.js";
+import { loginUser, registerUser } from "../controllers/auth.controller.js";
 
 // --- Router
 const AuthRouter = express.Router();
@@ -11,7 +11,8 @@ const AuthRouter = express.Router();
  * @swagger
  * /api/auth/register:
  *   post:
- *     summary: Register a new user
+ *     summary: Register new user
+ *     description: Create a new account in the system and return the user profile along with a JWT token for immediate authentication.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -21,17 +22,13 @@ const AuthRouter = express.Router();
  *             $ref: '#/components/schemas/RegisterRequest'
  *     responses:
  *       201:
- *         description: Success
+ *         description: User registered successfully.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/SingleUserResponse'
  *       400:
- *         description: Error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *         $ref: '#/components/responses/BadRequestError'
  */
 AuthRouter.route("/register").post(registerUser);
 
@@ -40,6 +37,7 @@ AuthRouter.route("/register").post(registerUser);
  * /api/auth/login:
  *   post:
  *     summary: Login user
+ *     description: Authenticate a user using email and password. Returns user data and a JWT token if credentials are valid.
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -49,17 +47,15 @@ AuthRouter.route("/register").post(registerUser);
  *             $ref: '#/components/schemas/LoginRequest'
  *     responses:
  *       200:
- *         description: Success
+ *         description: Login successful.
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/SingleUserResponse'
  *       400:
- *         description: Error
- *         content:
- *           application/json:
- *             schema:
- *               $ref: '#/components/schemas/ErrorResponse'
+ *         $ref: '#/components/responses/BadRequestError'
+ *       401:
+ *         $ref: '#/components/responses/UnauthorizedError'
  */
 AuthRouter.route("/login").post(loginUser);
 

@@ -1,19 +1,23 @@
 // --- Libraries
 import express from "express";
-import { config } from "dotenv";
+import {config} from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 import path from "path";
+import {serve, setup} from "swagger-ui-express";
+import livereload from "livereload";
+import connectLivereload from "connect-livereload";
 
 // --- Load environment variables from .env file
 config();
 
-// --- Database
+// --- Configurations
 import connectToDB from "./config/db.js";
+import swaggerSpec from "./config/swagger.js";
 
 // --- Middleware Files
 import logger from "./middlewares/logger.middleware.js";
-import { errorHandler, notFound } from "./middlewares/errors.middleware.js";
+import {errorHandler, notFound} from "./middlewares/errors.middleware.js";
 
 // --- Router Files
 import AuthRouter from "./routes/auth.routes.js";
@@ -26,9 +30,24 @@ import UploadRouter from "./routes/upload.routes.js";
 // --- Init App
 const app = express();
 
+// --- Live Reload (DEV ONLY)
+if (process.env.NODE_ENV === "development") {
+  // --- Watch public directory
+  const liveReloadServer = livereload.createServer();
+  liveReloadServer.watch(path.join(process.cwd(), "public"));
+   // --- Auto reload after first connection
+  liveReloadServer.server.once("connection", () => {
+    setTimeout(() => {
+      liveReloadServer.refresh("/");
+    }, 100);
+  });
+  // --- Inject script into HTML so browser can reload
+  app.use(connectLivereload());
+}
+
 // --- Middlewares
 app.use(express.json());
-app.use(express.urlencoded({ extended: false })); // Allow Express to read form data from HTML forms
+app.use(express.urlencoded({extended: false})); // Allow Express to read form data from HTML forms
 app.use(logger);
 
 // --- Helmet
@@ -46,6 +65,9 @@ app.use(
 app.use(express.static(path.join(process.cwd(), "public"))); // Expose the "public" folder to serve static assets
 app.set("views", path.join(process.cwd(), "views")); // Tell Express where the views (EJS templates) live
 app.set("view engine", "ejs");
+
+// --- Swagger UI Route
+app.use("/api-docs", serve, setup(swaggerSpec));
 
 // --- Routers
 app.use("/api/auth", AuthRouter);
