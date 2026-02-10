@@ -6,11 +6,11 @@ import bcrypt from "bcryptjs";
 config();
 
 // --- Local data
-import { users } from "../data/user.data.js";
+import { users } from "./user.data.js";
 
 // --- Local Files
-import connectToDB from "../config/db.js";
-import User from "../models/User.js";
+import connectToDB from "../../shared/config/db.js";
+import User from "../../models/User.js";
 
 // --- Connect To DB
 connectToDB();

@@ -3,20 +3,17 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import {
-  validateEmail,
-  validatePassword,
-} from "../validations/password.validation.js";
+import { validateEmail, validatePassword } from "./password.validation.js";
 
 // --- Services
 import {
   getResetPasswordViewService,
   resetPasswordService,
   sendForgotPasswordLinkService,
-} from "../services/password.service.js";
+} from "./password.service.js";
 
 // --- Types
-import type { ServiceResult } from "../types/service.js";
+import type { ServiceResult } from "../../shared/types/service.js";
 
 // --- HTTP Methods (Verbs)
 

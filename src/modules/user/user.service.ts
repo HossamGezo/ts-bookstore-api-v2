@@ -2,18 +2,18 @@
 import bcrypt from "bcryptjs";
 
 // --- Models
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 // --- Validations
-import type { UserUpdateDto } from "../validations/user.validation.js";
-import type { UserQueryDto } from "../validations/query.validation.js";
+import type { UserUpdateDto } from "./user.validation.js";
+import type { UserQueryDto } from "../../shared/validations/query.validation.js";
 
 // --- Helpers
-import { queryOperations } from "../helpers/query.helper.js";
+import { queryOperations } from "../../shared/helpers/query.helper.js";
 import {
   notFoundResponse,
   successResponse,
-} from "../helpers/response.helper.js";
+} from "../../shared/helpers/response.helper.js";
 
 // --- Get All Users Service
 export const getAllUsersService = async (queryParams: UserQueryDto) => {

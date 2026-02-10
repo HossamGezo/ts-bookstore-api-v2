@@ -1,16 +1,16 @@
 // --- Models
-import Author from "../models/Author.js";
+import Author from "../../models/Author.js";
 
 // --- Validations
-import type { AuthorDto } from "../validations/author.validation.js";
-import type { AuthorQueryDto } from "../validations/query.validation.js";
+import type { AuthorDto } from "./author.validation.js";
+import type { AuthorQueryDto } from "../../shared/validations/query.validation.js";
 
 // --- Helpers
-import { queryOperations } from "../helpers/query.helper.js";
+import { queryOperations } from "../../shared/helpers/query.helper.js";
 import {
   notFoundResponse,
   successResponse,
-} from "../helpers/response.helper.js";
+} from "../../shared/helpers/response.helper.js";
 
 // --- Get All Authors with Pagination Service
 export const getAllAuthorsService = async (queryParams: AuthorQueryDto) => {

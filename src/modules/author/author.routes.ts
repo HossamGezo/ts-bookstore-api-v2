@@ -2,8 +2,8 @@
 import express from "express";
 
 // --- Middlewares
-import { verifyTokenAndAdmin } from "../middlewares/verifyToken.middleware.js";
-import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+import { verifyTokenAndAdmin } from "../../shared/middlewares/verifyToken.middleware.js";
+import { validateObjectId } from "../../shared/middlewares/validateObjectId.middleware.js";
 
 // --- Authors Controller Methods (Verbs)
 import {
@@ -12,7 +12,7 @@ import {
   getAllAuthors,
   getAuthorById,
   updateAuthorById,
-} from "../controllers/author.controller.js";
+} from "./author.controller.js";
 
 // --- Router
 const AuthorRouter = express.Router();
@@ -131,7 +131,7 @@ AuthorRouter.route("/")
  *       - tokenAuth: []
  *     responses:
  *       200:
- *         description: Author deleted successfully.
+ *         $ref: '#/components/responses/DeleteSuccess'
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  *       403:

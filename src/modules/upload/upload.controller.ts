@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import {
   failureResponse,
   successResponse,
-} from "../helpers/response.helper.js";
+} from "../../shared/helpers/response.helper.js";
 
 // --- HTTP Methods (Verbs)
 

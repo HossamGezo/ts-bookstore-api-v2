@@ -1,16 +1,16 @@
 // --- Model
-import Book from "../models/Book.js";
+import Book from "../../models/Book.js";
 
 // --- Validations
-import type { BookDto } from "../validations/book.validation.js";
-import type { BookQueryDto } from "../validations/query.validation.js";
+import type { BookDto } from "./book.validation.js";
+import type { BookQueryDto } from "../../shared/validations/query.validation.js";
 
 // --- Helpers
-import { queryOperations } from "../helpers/query.helper.js";
+import { queryOperations } from "../../shared/helpers/query.helper.js";
 import {
   notFoundResponse,
   successResponse,
-} from "../helpers/response.helper.js";
+} from "../../shared/helpers/response.helper.js";
 
 // --- Get All Books with Filtering & Pagination Service
 export const getAllBooksService = async (queryParams: BookQueryDto) => {

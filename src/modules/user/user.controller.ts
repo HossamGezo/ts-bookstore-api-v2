@@ -3,7 +3,7 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import { validateUpdate } from "../validations/user.validation.js";
+import { validateUpdate } from "./user.validation.js";
 
 // --- Services
 import {
@@ -11,11 +11,11 @@ import {
   getAllUsersService,
   getUserByIdService,
   updateUserByIdService,
-} from "../services/user.service.js";
-import { UserQuerySchema } from "../validations/query.validation.js";
+} from "./user.service.js";
+import { UserQuerySchema } from "../../shared/validations/query.validation.js";
 
 // --- Types
-import type { ServiceResult } from "../types/service.js";
+import type { ServiceResult } from "../../shared/types/service.js";
 
 /**
  * @desc Get All Users

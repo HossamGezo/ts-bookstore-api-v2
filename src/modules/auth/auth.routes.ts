@@ -2,7 +2,7 @@
 import express from "express";
 
 // --- Auth Controller Methods (Verbs)
-import { loginUser, registerUser } from "../controllers/auth.controller.js";
+import { loginUser, registerUser } from "./auth.controller.js";
 
 // --- Router
 const AuthRouter = express.Router();

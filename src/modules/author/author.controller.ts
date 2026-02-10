@@ -3,10 +3,7 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import {
-  validateAuthor,
-  type AuthorDto,
-} from "../validations/author.validation.js";
+import { validateAuthor, type AuthorDto } from "./author.validation.js";
 
 // --- services
 import {
@@ -15,11 +12,11 @@ import {
   getAllAuthorsService,
   getAuthorByIdService,
   updateAuthorByIdService,
-} from "../services/author.service.js";
-import { AuthorQuerySchema } from "../validations/query.validation.js";
+} from "./author.service.js";
+import { AuthorQuerySchema } from "../../shared/validations/query.validation.js";
 
 // --- Types
-import type { ServiceResult } from "../types/service.js";
+import type { ServiceResult } from "../../shared/types/service.js";
 
 // --- HTTP Methods (Verbs)
 

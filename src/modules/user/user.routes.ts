@@ -5,8 +5,8 @@ import express from "express";
 import {
   verifyTokenAndAdmin,
   verifyTokenAndAuthorization,
-} from "../middlewares/verifyToken.middleware.js";
-import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+} from "../../shared/middlewares/verifyToken.middleware.js";
+import { validateObjectId } from "../../shared/middlewares/validateObjectId.middleware.js";
 
 // --- Users Controller Methods (Verbs)
 import {
@@ -14,7 +14,7 @@ import {
   getUserById,
   updateUserById,
   deleteUserById,
-} from "../controllers/user.controller.js";
+} from "./user.controller.js";
 
 // --- UserRouter
 const UserRouter = express.Router();
@@ -115,7 +115,7 @@ UserRouter.route("/").get(verifyTokenAndAdmin, getAllUsers);
  *       - tokenAuth: []
  *     responses:
  *       200:
- *         description: User deleted successfully.
+ *         $ref: '#/components/responses/DeleteSuccess'
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  *       403:

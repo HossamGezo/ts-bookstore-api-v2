@@ -4,15 +4,15 @@ import nodemailer from "nodemailer";
 import bcrypt from "bcryptjs";
 
 // --- Model
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 // --- Types
-import type { EmailSchemaDto } from "../validations/password.validation.js";
+import type { EmailSchemaDto } from "./password.validation.js";
 import {
   failureResponse,
   notFoundResponse,
   successResponse,
-} from "../helpers/response.helper.js";
+} from "../../shared/helpers/response.helper.js";
 
 // --- Send Forgot Password Link Service
 export const sendForgotPasswordLinkService = async (data: EmailSchemaDto) => {

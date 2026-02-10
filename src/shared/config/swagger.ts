@@ -75,6 +75,22 @@ const options: Options = {
             message: { type: "string", example: "Resource not found" },
           },
         },
+        // --- Delete Schemas ---
+        DeleteSuccessResponse: {
+          type: "object",
+          properties: {
+            success: { type: "boolean", example: true },
+            data: {
+              type: "object",
+              properties: {
+                message: {
+                  type: "string",
+                  example: "Deleted successfully",
+                },
+              },
+            },
+          },
+        },
         // --- User Schemas ---
         User: {
           type: "object",
@@ -189,17 +205,41 @@ const options: Options = {
           properties: {
             id: { type: "string", example: "6988bef57344126984f32fd6" },
             title: { type: "string", example: "The Palace Walk" },
-            description: { type: "string", example: "Book description here" },
-            author: { $ref: "#/components/schemas/Author" },
+            description: {
+              type: "string",
+              example: "A great novel by Naguib Mahfouz",
+            },
+            authorName: { type: "string", example: "Naguib Mahfouz" },
+            price: { type: "number", example: 25.5 },
+            authorId: { $ref: "#/components/schemas/Author" },
+            cover: {
+              type: "string",
+              enum: ["soft cover", "hard cover"],
+              example: "soft cover",
+            },
           },
         },
         BookRequest: {
           type: "object",
-          required: ["title", "description", "authorId"],
+          required: [
+            "title",
+            "authorName",
+            "authorId",
+            "description",
+            "price",
+            "cover",
+          ],
           properties: {
             title: { type: "string", example: "The Palace Walk" },
-            description: { type: "string", example: "A great novel..." },
+            authorName: { type: "string", example: "Naguib Mahfouz" },
             authorId: { type: "string", example: "6988bef57344126984f32fd6" },
+            description: { type: "string", example: "Book description..." },
+            price: { type: "number", example: 25.5 },
+            cover: {
+              type: "string",
+              example: "soft cover",
+              enum: ["soft cover", "hard cover"],
+            },
           },
         },
         SuccessBooksList: {
@@ -314,10 +354,19 @@ const options: Options = {
             },
           },
         },
+        // --- Delete Responses --
+        DeleteSuccess: {
+          description: "Success - The item has been deleted",
+          content: {
+            "application/json": {
+              schema: { $ref: "#/components/schemas/DeleteSuccessResponse" },
+            },
+          },
+        },
       },
     },
   },
-  apis: ["./src/routes/*.ts", "./src/routes/*.js"],
+  apis: ["./src/modules/**/*.routes.ts", "./src/modules/**/*.routes.js"],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

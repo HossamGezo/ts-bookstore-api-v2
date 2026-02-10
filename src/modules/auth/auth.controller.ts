@@ -3,17 +3,11 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Local Files
-import {
-  validateLogin,
-  validateRegister,
-} from "../validations/user.validation.js";
-import {
-  loginUserService,
-  registerUserService,
-} from "../services/auth.service.js";
+import { validateLogin, validateRegister } from "../user/user.validation.js";
+import { loginUserService, registerUserService } from "./auth.service.js";
 
 // --- Types
-import type { ServiceResult } from "../types/service.js";
+import type { ServiceResult } from "../../shared/types/service.js";
 
 // --- HTTP Methods (Verbs)
 

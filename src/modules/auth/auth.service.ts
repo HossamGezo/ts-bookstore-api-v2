@@ -3,19 +3,16 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
 // --- Models
-import User from "../models/User.js";
+import User from "../../models/User.js";
 
 // --- validations
-import type {
-  UserLoginDto,
-  UserRegisterDto,
-} from "../validations/user.validation.js";
+import type { UserLoginDto, UserRegisterDto } from "../user/user.validation.js";
 
 // --- Helpers
 import {
   failureResponse,
   successResponse,
-} from "../helpers/response.helper.js";
+} from "../../shared/helpers/response.helper.js";
 
 // --- Register User Service
 export const registerUserService = async (data: UserRegisterDto) => {

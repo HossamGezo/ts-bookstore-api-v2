@@ -3,8 +3,8 @@ import type { Request, Response } from "express";
 import asyncHandler from "express-async-handler";
 
 // --- Validations
-import { validateBook, type BookDto } from "../validations/book.validation.js";
-import { BookQuerySchema } from "../validations/query.validation.js";
+import { validateBook, type BookDto } from "./book.validation.js";
+import { BookQuerySchema } from "../../shared/validations/query.validation.js";
 
 // --- Services
 import {
@@ -13,10 +13,10 @@ import {
   getAllBooksService,
   getBookByIdService,
   updateBookByIdService,
-} from "../services/book.service.js";
+} from "./book.service.js";
 
 // --- Types
-import type { ServiceResult } from "../types/service.js";
+import type { ServiceResult } from "../../shared/types/service.js";
 
 // --- HTTP Methods (Verbs)
 

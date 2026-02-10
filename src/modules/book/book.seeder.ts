@@ -5,12 +5,12 @@ import { config } from "dotenv";
 config();
 
 // --- Local Data
-import { books } from "../data/book.data.js";
+import { books } from "./book.data.js";
 
 // --- Local Files
-import connectToDB from "../config/db.js";
-import Book from "../models/Book.js";
-import Author from "../models/Author.js";
+import connectToDB from "../../shared/config/db.js";
+import Book from "../../models/Book.js";
+import Author from "../../models/Author.js";
 
 // --- Connect to DB
 connectToDB();

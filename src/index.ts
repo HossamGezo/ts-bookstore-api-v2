@@ -12,20 +12,23 @@ import connectLivereload from "connect-livereload";
 config();
 
 // --- Configurations
-import connectToDB from "./config/db.js";
-import swaggerSpec from "./config/swagger.js";
+import connectToDB from "./shared/config/db.js";
+import swaggerSpec from "./shared/config/swagger.js";
 
 // --- Middleware Files
-import logger from "./middlewares/logger.middleware.js";
-import { errorHandler, notFound } from "./middlewares/errors.middleware.js";
+import logger from "./shared/middlewares/logger.middleware.js";
+import {
+  errorHandler,
+  notFound,
+} from "./shared/middlewares/errors.middleware.js";
 
 // --- Router Files
-import AuthRouter from "./routes/auth.routes.js";
-import PasswordRouter from "./routes/password.routes.js";
-import UserRouter from "./routes/user.routes.js";
-import AuthorRouter from "./routes/author.routes.js";
-import BookRouter from "./routes/book.routes.js";
-import UploadRouter from "./routes/upload.routes.js";
+import AuthRouter from "./modules/auth/auth.routes.js";
+import PasswordRouter from "./modules/password/password.routes.js";
+import UserRouter from "./modules/user/user.routes.js";
+import AuthorRouter from "./modules/author/author.routes.js";
+import BookRouter from "./modules/book/book.routes.js";
+import UploadRouter from "./modules/upload/upload.routes.js";
 
 // --- Init App
 const app = express();

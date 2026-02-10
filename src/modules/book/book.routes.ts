@@ -2,8 +2,8 @@
 import express from "express";
 
 // --- Middlewares
-import { verifyTokenAndAdmin } from "../middlewares/verifyToken.middleware.js";
-import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+import { verifyTokenAndAdmin } from "../../shared/middlewares/verifyToken.middleware.js";
+import { validateObjectId } from "../../shared/middlewares/validateObjectId.middleware.js";
 
 // --- Books Controller Methods (Verbs)
 import {
@@ -12,7 +12,7 @@ import {
   getAllBooks,
   getBookById,
   updateBookById,
-} from "../controllers/book.controller.js";
+} from "./book.controller.js";
 
 // --- Router
 const BookRouter = express.Router();
@@ -140,7 +140,7 @@ BookRouter.route("/").get(getAllBooks).post(verifyTokenAndAdmin, createNewBook);
  *       - tokenAuth: []
  *     responses:
  *       200:
- *         description: Deleted successfully.
+ *         $ref: '#/components/responses/DeleteSuccess'
  *       401:
  *         $ref: '#/components/responses/UnauthorizedError'
  *       403:

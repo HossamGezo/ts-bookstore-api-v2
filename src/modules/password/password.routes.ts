@@ -2,7 +2,7 @@
 import express from "express";
 
 // --- Middlewares
-import { validateObjectId } from "../middlewares/validateObjectId.middleware.js";
+import { validateObjectId } from "../../shared/middlewares/validateObjectId.middleware.js";
 
 // --- Password Controller Methods (Verbs)
 import {
@@ -10,7 +10,7 @@ import {
   getResetPasswordView,
   resetPassword,
   sendForgotPasswordLink,
-} from "../controllers/password.controller.js";
+} from "./password.controller.js";
 
 // --- Router
 const PasswordRouter = express.Router();
