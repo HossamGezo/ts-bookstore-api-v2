@@ -2,9 +2,26 @@
 
 ## [REF-01] Live Reload Setup
 
-LiveReload was not working initially due to three main reasons:
+LiveReload was not working initially due to four main reasons:
 
-1. **Middleware Placement**: The `connect-livereload` must be placed at the very top, immediately after `const app = express()`.
+1. **CommonJS inside ESM**: Since the project uses ES Modules (`"type": "module"`), we cannot use `require` directly. However, some libraries like `livereload` work better with CommonJS or need to be loaded conditionally. We used `createRequire` to bridge this gap.
+
+```typescript
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+```
+
+2. **Conditional Importing (Production Crash)**: Importing `livereload` at the top level caused the Docker container to crash in production because `livereload` is a `devDependency` and is not installed in the production image. We moved the `require` calls inside the development check.
+
+```typescript
+if (process.env.NODE_ENV === "development") {
+  const livereload = require("livereload");
+  const connectLivereload = require("connect-livereload");
+  // ... rest of the setup
+}
+```
+
+3. **Middleware Placement**: The `connect-livereload` middleware must be placed at the very top of the middleware stack, immediately after initializing the `express` app, to ensure it can inject the script into the HTML responses.
 
 ```typescript
 const app = express();
@@ -13,7 +30,7 @@ if (process.env.NODE_ENV === "development") {
 }
 ```
 
-2. **Helmet Security**: Helmet's CSP blocks the script injection. We disabled CSP in development mode to allow LiveReload to work.
+4. **Helmet Security & File Extensions**: Helmet's default Content Security Policy (CSP) blocks the injected script. We disabled CSP in development. Also, we manually added extensions (`ejs`, `css`, `js`, `png`, `jpg`) to the watch list.
 
 ```typescript
 app.use(
@@ -21,18 +38,10 @@ app.use(
     contentSecurityPolicy: process.env.NODE_ENV !== "development",
   }),
 );
-```
 
-3. **File Extensions**: We manually added extensions (`ejs`, `css`, `js`, `png`, `jpg`) to the watch list so the server knows which file changes should trigger a browser refresh.
-
-```typescript
 const liveReloadServer = livereload.createServer({
   exts: ["ejs", "css", "js", "png", "jpg"],
 });
-liveReloadServer.watch([
-  path.join(process.cwd(), "public"),
-  path.join(process.cwd(), "views"),
-]);
 ```
 
 ## [REF-02] Linting & Husky Setup
@@ -65,7 +74,7 @@ export default [
       "@typescript-eslint/no-unused-vars": [
         "error",
         {
-          // Ignore variables/args starting with underscore (e.g., _req)
+          // Ignore variables/args starting with an underscore (e.g., _req)
           argsIgnorePattern: "^_",
           varsIgnorePattern: "^_",
         },
@@ -108,9 +117,6 @@ npx husky init
 Modify the `.husky/pre-commit` file to enforce quality checks before every commit:
 
 ```bash
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Run formatting, linting, and type-checking
 npm run format && npm run lint && npm run check-types
 ```

@@ -6,13 +6,17 @@ mongoose.plugin(globalSchemaPlugin);
 
 const connectToDB = async () => {
   // Ensure MONGO_URI exists (TypeScript safety check)
-  if (!process.env.MONGO_URI) {
+  const mongoUri =
+    process.env.NODE_ENV === "development"
+      ? process.env.MONGO_URI_DEV
+      : process.env.MONGO_URI_PRO;
+  if (!mongoUri) {
     console.error("MONGO_URI is missing!");
     process.exit(1);
   }
   try {
     // Initial attempt to connect to the database
-    await mongoose.connect(process.env.MONGO_URI);
+    await mongoose.connect(mongoUri);
     console.log("Connected to MongoDB...");
 
     /**
