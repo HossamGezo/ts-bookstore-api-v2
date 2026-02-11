@@ -14,6 +14,10 @@ const options: Options = {
     },
     servers: [
       {
+        url: "https://bookstore-api-0fy2.onrender.com",
+        description: "Production server",
+      },
+      {
         url: "http://localhost:5001",
         description: "Development server",
       },
@@ -366,7 +370,11 @@ const options: Options = {
       },
     },
   },
-  apis: ["./src/modules/**/*.routes.ts", "./src/modules/**/*.routes.js"],
+  apis: [
+    "./src/modules/**/*.routes.ts",
+    "./src/modules/**/*.routes.js",
+    "./dist/modules/**/*.routes.js",
+  ],
 };
 
 const swaggerSpec = swaggerJsdoc(options);

@@ -20,3 +20,6 @@ docker-compose*
 # Logs and debug files
 npm-debug.log*
 *.tsbuildinfo
+
+# Husky
+.husky
