@@ -1,8 +1,8 @@
 {
   "name": "ts-bookstore-api-v2",
-  "version": "1.0.0",
-  "description": "Second iteration practicing Clean Architecture",
-  "main": "index.js",
+  "version": "2.0.0",
+  "description": "A high-performance Bookstore API built with Node.js, TypeScript, and Docker, featuring Clean Architecture and Full CI/CD Pipeline.",
+  "main": "dist/index.js",
   "scripts": {
     "start": "node dist/index.js",
     "build": "npm run tailwind:build && tsc",
@@ -32,9 +32,19 @@
     "type": "git",
     "url": "git+https://github.com/HossamGezo/ts-bookstore-api-v2.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "express",
+    "mongodb",
+    "docker",
+    "clean-architecture",
+    "rest-api",
+    "swagger",
+    "ci-cd"
+  ],
+  "author": "Hossam Gezo <ha2ghossam10@gmail.com> (https://github.com/HossamGezo)",
+  "license": "MIT",
   "type": "module",
   "bugs": {
     "url": "https://github.com/HossamGezo/ts-bookstore-api-v2/issues"
