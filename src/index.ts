@@ -99,6 +99,11 @@ app.set("view engine", "ejs");
 // --- Swagger UI Route
 app.use("/api-docs", serve, setup(swaggerSpec));
 
+// Redirect root path to API Documentation
+app.get("/", (_req, res) => {
+  res.redirect("/api-docs");
+});
+
 // --- API & MVC Routers
 app.use("/api/auth", AuthRouter);
 app.use("/password", PasswordRouter);
