@@ -8,7 +8,7 @@
 
 ---
 
-A professional, high-performance RESTful API for a Bookstore management system. Built with **Node.js**, **Express**, and **TypeScript**, this project implements **Clean Architecture (Modular)**, robust security, and a fully automated **CI/CD Pipeline**.
+A professional, high-performance RESTful API for a Bookstore management system. Built with **Node.js**, **Express**, and **TypeScript**, this project implements **Clean Architecture (Modular)**, robust security, a fully automated **CI/CD Pipeline**, and an **MVC pattern** for specialized workflows.
 
 🚀 **Live Demo:** [Interactive Swagger Documentation](https://bookstore-api-0fy2.onrender.com/api-docs)
 
@@ -29,32 +29,23 @@ A professional, high-performance RESTful API for a Bookstore management system. 
 ### 🏗️ Architecture & Clean Code
 
 - **Modular Design**: Organized by features (**Auth, Users, Books, Authors**) for maximum maintainability.
-- **Decoupled Logic**: Services, Controllers, and Models are strictly separated.
+- **Hybrid Pattern**: A powerful combination of **REST API** for data and **MVC** (using EJS) for password recovery flows.
 - **Standardized Responses**: Consistent JSON structure across all API endpoints using custom response helpers.
 
 ### 🔐 Security & Reliability
 
-- **Rate Limiting**: Protects against DDoS and brute-force attacks by limiting requests per IP address.
-- **Advanced Security Headers**: Implemented via **Helmet** and **HPP** (HTTP Parameter Pollution) protection.
-- **Authentication & Authorization**: Secure JWT-based auth with specialized middlewares for Admin and Owner access.
+- **Rate Limiting & Protection**: Protects against DDoS/Brute-force via `express-rate-limit`, `hpp`, and `helmet`.
+- **Authentication**: Secure JWT-based auth with specialized middlewares for Admin and Account Owners.
 - **Data Integrity**: Strict request validation using **Zod** schemas.
 
 ### ⚡ Performance Optimization
 
-- **Gzip Compression**: Optimized payload delivery for faster data transfer.
+- **Payload Compression**: Uses Gzip compression to speed up data transfer.
 - **Smart Querying**: Built-in support for Pagination, Filtering, and MongoDB Population.
-
-### 🐳 DevOps & Automation
-
-- **CI/CD Pipeline**: Fully automated testing (Linting/Type-checking) and Docker building via GitHub Actions.
-- **Optimized Docker**: Professional **Multi-stage Build** producing a lightweight and secure production image (~150MB).
-- **Auto-Deployment**: Seamless deployment to **Render** triggered via Docker Hub Webhooks.
 
 ---
 
 ## 📸 API Documentation Preview
-
-The API is fully documented using **Swagger/OpenAPI 3.0** with modular YAML definitions.
 
 ![Swagger UI Preview](./assets/swagger-ui.png)
 
@@ -62,41 +53,29 @@ The API is fully documented using **Swagger/OpenAPI 3.0** with modular YAML defi
 
 ## 🚀 Installation & Running
 
-### 🐳 Using Docker (The Easiest Way)
+### 🐳 Using Docker (Recommended)
 
-You can run the entire system (including Database connectivity) with a single command:
+```bash
+# 1. Clone & Setup .env
+git clone https://github.com/HossamGezo/ts-bookstore-api-v2.git
+cd ts-bookstore-api-v2
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/HossamGezo/ts-bookstore-api-v2.git
-   cd ts-bookstore-api-v2
-   ```
-2. **Setup Environment:** Create a `.env` file based on `.env.example`.
-3. **Run:**
-   ```bash
-   docker-compose up
-   ```
+# 2. Run with one command
+docker-compose up
+```
 
 ### 💻 Local Development Setup
 
-1. **Install dependencies:**
-   ```bash
-   npm install
-   ```
-2. **Setup Husky:**
-   ```bash
-   npm run prepare
-   ```
-3. **Start development server (with LiveReload):**
-   ```bash
-   npm run dev
-   ```
+1. **Install dependencies**: `npm install`
+2. **Choose your mode**:
+   - **`npm run dev`**: Start the **API** development server.
+   - **`npm run mvc`**: Start the **Full Stack** development (API + Tailwind CSS Watcher + Views).
 
 ---
 
 ## 📂 Internal Resources
 
-- 📊 **Roadmap**: Check [TODO.md](./TODO.md) for current progress and planned features.
+- 📊 **Roadmap**: Check [TODO.md](./TODO.md) for future features.
 - 📓 **Engineering Notes**: Detailed troubleshooting and technical decisions in [DEV_NOTES.md](./DEV_NOTES.md).
 
 ---
@@ -107,7 +86,3 @@ You can run the entire system (including Database connectivity) with a single co
 
 - GitHub: [@HossamGezo](https://github.com/HossamGezo)
 - LinkedIn: [Your LinkedIn Profile URL]
-
----
-
-_This project is licensed under the MIT License._
