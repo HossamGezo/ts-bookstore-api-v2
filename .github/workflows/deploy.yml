@@ -40,3 +40,11 @@ jobs:
           push: true
           platforms: linux/amd64
           tags: hossamgezo/bookstore-api:v2
+      - name: Update Docker Hub Description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: hossamgezo/bookstore-api
+          short-description: "Professional Bookstore API built with Node.js, TypeScript, and Clean Architecture."
+          readme-filepath: ./README.md
