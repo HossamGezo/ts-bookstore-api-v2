@@ -15,10 +15,12 @@
 ## Incoming Tasks 🏗️
 
 ### Advanced Features 🔧
+
 - [ ] **Unified Upload Integration**: Link Cloudinary/Local images to Users, Books, and Authors.
 - [ ] **Cloudinary Migration**: Move from local storage to cloud-based media management.
 - [ ] **Advanced Search & Filtering**: Implement complex query logic for a better user experience.
 
 ### Business Logic 💰
+
 - [ ] **Reviews & Ratings System**: Allow users to interact and rate books.
 - [ ] **Stripe Payment Integration**: Secure payment gateway for purchasing books.

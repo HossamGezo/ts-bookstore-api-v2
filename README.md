@@ -1,10 +1,12 @@
 # 📚 Bookstore API (V2)
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/HossamGezo/ts-bookstore-api-v2/deploy.yml?branch=release/production-ready&style=for-the-badge&logo=github)](https://github.com/HossamGezo/ts-bookstore-api-v2/actions)
-[![Website Status](https://img.shields.io/website?down_color=red&down_message=down&label=Render&logo=render&style=for-the-badge&up_color=brightgreen&up_message=up&url=https%3A%2F%2Fbookstore-api-0fy2.onrender.com)](https://bookstore-api-0fy2.onrender.com)
-[![Swagger Docs](https://img.shields.io/badge/Swagger-OpenAPI%203.0-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://bookstore-api-0fy2.onrender.com/api-docs)
-[![Docker Hub](https://img.shields.io/docker/v/hossamgezo/bookstore-api?style=for-the-badge&logo=docker&logoColor=white&label=Docker%20Hub)](https://hub.docker.com/r/hossamgezo/bookstore-api)
-[![GitHub License](https://img.shields.io/github/license/HossamGezo/ts-bookstore-api-v2?style=for-the-badge&color=blue)](https://github.com/HossamGezo/ts-bookstore-api-v2/blob/release/prod-ready/LICENSE)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/HossamGezo/ts-bookstore-api-v2/deploy.yml?branch=release/production-ready&style=for-the-badge&logo=github&logoColor=white)](https://github.com/HossamGezo/ts-bookstore-api-v2/actions)
+[![Website Status](https://img.shields.io/website?down_color=red&down_message=down&label=Render&logo=render&logoColor=white&style=for-the-badge&up_color=46E3B7&up_message=up&url=https%3A%2F%2Fbookstore-api-0fy2.onrender.com)](https://bookstore-api-0fy2.onrender.com)
+[![Swagger Docs](https://img.shields.io/badge/Swagger-OpenAPI%203.0-6BA539?style=for-the-badge&logo=swagger&logoColor=white)](https://bookstore-api-0fy2.onrender.com/api-docs)
+[![Docker Hub](https://img.shields.io/docker/v/hossamgezo/bookstore-api?style=for-the-badge&logo=docker&logoColor=white&label=Docker%20Hub&color=2496ED)](https://hub.docker.com/r/hossamgezo/bookstore-api)
+[![GitHub License](https://img.shields.io/github/license/HossamGezo/ts-bookstore-api-v2?style=for-the-badge&logo=opensourceinitiative&logoColor=white&color=007EC6)](https://github.com/HossamGezo/ts-bookstore-api-v2/blob/release/prod-ready/LICENSE)
+
+---
 
 ---
 
