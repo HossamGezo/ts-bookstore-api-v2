@@ -1,14 +1,14 @@
 // --- Libraries
 import express from "express";
-import {config} from "dotenv";
+import { config } from "dotenv";
 import helmet from "helmet";
 import cors from "cors";
 import path from "path";
-import {serve, setup} from "swagger-ui-express";
+import { serve, setup } from "swagger-ui-express";
 // --- Security, Performance & Rate Limiting Middlewares
 import compression from "compression"; // Optimizes performance by compressing response data (JSON/HTML) for faster delivery.
 import hpp from "hpp"; // Enhances security by preventing HTTP ( HTTP Parameter Pollution ) Parameter Pollution attacks on query strings.
-import {rateLimit} from "express-rate-limit"; // Protects the server from DDoS and Brute-force attacks by limiting
+import { rateLimit } from "express-rate-limit"; // Protects the server from DDoS and Brute-force attacks by limiting
 
 // --- Load environment variables from .env file
 config();
@@ -18,7 +18,7 @@ import connectToDB from "./shared/config/db.js";
 import swaggerSpec from "./shared/config/swagger.js";
 
 // --- Helpers
-import {setupLiveReload} from "./shared/helpers/livereload.helper.js";
+import { setupLiveReload } from "./shared/helpers/livereload.helper.js";
 
 // --- Middleware Files
 import logger from "./shared/middlewares/logger.middleware.js";
@@ -51,7 +51,7 @@ app.use(compression());
 
 // --- Request Parsing Middlewares
 app.use(express.json());
-app.use(express.urlencoded({extended: false})); // Allow Express to read form data from HTML forms
+app.use(express.urlencoded({ extended: false })); // Allow Express to read form data from HTML forms
 
 // --- Security Middlewares
 // HPP: Prevents HTTP Parameter Pollution (e.g., sending multiple ?user=1&user=2).
@@ -60,7 +60,7 @@ app.use(hpp());
 // Helmet: Security headers. Disable CSP in development to allow Swagger/LiveReload to function.
 if (process.env.NODE_ENV === "development") {
   app.use(
-    helmet({contentSecurityPolicy: false, crossOriginEmbedderPolicy: false}),
+    helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false }),
   );
 } else {
   app.use(helmet());
@@ -85,7 +85,7 @@ const limiter = rateLimit({
 });
 
 // --- Apply rate limiting to all api & passwword routes
-app.use("/api", limiter); 
+app.use("/api", limiter);
 app.use("/password", limiter);
 
 // --- Logging Middleware

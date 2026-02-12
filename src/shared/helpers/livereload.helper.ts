@@ -1,8 +1,8 @@
 // --- Libraries
-import type {Application} from "express";
+import type { Application } from "express";
 import path from "path";
 // --- Enable CommonJS imports inside ESM
-import {createRequire} from "module";
+import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
 
