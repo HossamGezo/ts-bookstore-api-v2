@@ -24,13 +24,13 @@ const options: Options = {
     ],
     tags: [
       { name: "Auth", description: "Authentication operations" },
+      { name: "User", description: "User profile and administration" },
       {
         name: "Password",
         description: "Password recovery (MVC Views & Logic)",
       },
       { name: "Book", description: "Book catalog management" },
       { name: "Author", description: "Author details and profiles" },
-      { name: "User", description: "User profile and administration" },
       { name: "Upload", description: "File and image upload services" },
     ],
     components: {
