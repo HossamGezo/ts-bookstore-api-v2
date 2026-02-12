@@ -16,6 +16,7 @@ docker-compose*
 
 # Version control
 .git
+.github
 
 # Logs and debug files
 npm-debug.log*

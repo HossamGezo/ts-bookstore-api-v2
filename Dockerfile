@@ -15,6 +15,8 @@ RUN npm install --omit=dev --ignore-scripts
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/views ./views
+COPY --from=builder /app/src/modules ./src/modules
+RUN find ./src/modules -name "*.ts" -type f -delete
 EXPOSE 5001
 
 CMD ["node", "dist/index.js"]
