@@ -25,7 +25,7 @@ import type { ServiceResult } from "../../shared/types/service.js";
  */
 export const getForgotPasswordView = asyncHandler(
   async (_req: Request, res: Response) => {
-    res.render("forgot-password");
+    res.render("password/forgot-password");
   },
 );
 
@@ -60,7 +60,7 @@ export const sendForgotPasswordLink = asyncHandler(
     }
 
     // --- Response
-    res.render("link-send");
+    res.render("password/link-send");
   },
 );
 
@@ -91,7 +91,7 @@ export const getResetPasswordView = asyncHandler(
     }
 
     // --- Response
-    res.render("reset-password", { email: result.data.email });
+    res.render("password/reset-password", { email: result.data.email });
   },
 );
 
@@ -128,6 +128,6 @@ export const resetPassword = asyncHandler(
     }
 
     // --- Response
-    res.render("success-password");
+    res.render("password/success-password");
   },
 );
