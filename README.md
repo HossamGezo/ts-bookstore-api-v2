@@ -1,27 +1,45 @@
 # 📚 Bookstore API (V2)
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/HossamGezo/ts-bookstore-api-v2/deploy.yml?branch=release/production-ready&style=for-the-badge&logo=github&logoColor=white)](https://github.com/HossamGezo/ts-bookstore-api-v2/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/HossamGezo/ts-bookstore-api-v2/deploy.yml?branch=main&style=for-the-badge&logo=github&logoColor=white)](https://github.com/HossamGezo/ts-bookstore-api-v2/actions)
 [![Website Status](https://img.shields.io/website?down_color=red&down_message=down&label=Render&logo=render&logoColor=white&style=for-the-badge&up_color=46E3B7&up_message=up&url=https%3A%2F%2Fbookstore-api-0fy2.onrender.com)](https://bookstore-api-0fy2.onrender.com)
 ![DB Status](https://img.shields.io/badge/MongoDB_Atlas-Live-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 [![Swagger Docs](https://img.shields.io/badge/Swagger-OpenAPI%203.0-6BA539?style=for-the-badge&logo=swagger&logoColor=white)](https://bookstore-api-0fy2.onrender.com/api-docs)
 [![Docker Hub](https://img.shields.io/docker/v/hossamgezo/bookstore-api?style=for-the-badge&logo=docker&logoColor=white&label=Docker%20Hub&color=2496ED)](https://hub.docker.com/r/hossamgezo/bookstore-api)
-[![GitHub License](https://img.shields.io/github/license/HossamGezo/ts-bookstore-api-v2?style=for-the-badge&logo=opensourceinitiative&logoColor=white&color=007EC6)](https://github.com/HossamGezo/ts-bookstore-api-v2/blob/release/production-ready/LICENSE)
+[![GitHub License](https://img.shields.io/github/license/HossamGezo/ts-bookstore-api-v2?style=for-the-badge&logo=opensourceinitiative&logoColor=white&color=007EC6)](https://github.com/HossamGezo/ts-bookstore-api-v2/blob/main/LICENSE)
 
 ---
 
-A professional, high-performance RESTful API for a Bookstore management system. Built with **Node.js**, **Express**, and **TypeScript**, this project implements **Clean Architecture (Modular)**, robust security, a fully automated **CI/CD Pipeline**, and an **MVC pattern** for specialized workflows.
+A professional, high-performance Bookstore system featuring a hybrid **RESTful API** and **MVC architecture**, built with **Node.js**, **Express**, and **TypeScript**. This project implements **Clean Modular Architecture**, robust production security, and a fully automated **CI/CD Pipeline**.
 
-🚀 **Live Demo:** [Interactive Swagger Documentation](https://bookstore-api-0fy2.onrender.com/api-docs)
+🚀 **Live Site:** [https://bookstore-api-0fy2.onrender.com](https://bookstore-api-0fy2.onrender.com)
+
+---
+
+## 📸 Project Showcase
+
+### 🏠 Landing Page (MVC with EJS & Tailwind)
+
+_Click the image to visit the live home page._
+
+[![Welcome UI](./assets/welcome-ui.png)](https://bookstore-api-0fy2.onrender.com)
+
+---
+
+### 📖 Interactive API Explorer (Swagger UI)
+
+_Click the image to test the API endpoints live._
+
+[![Swagger UI](./assets/swagger-ui.png)](https://bookstore-api-0fy2.onrender.com/api-docs)
 
 ---
 
 ## 🛠 Tech Stack
 
-| Backend Core                                                                                      | Database                                                                                                    | DevOps & CI/CD                                                                                                      | Security & Performance                                                                                   |
-| :------------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------- |
-| ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) | ![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=flat&logo=mongodb&logoColor=white) | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)                        | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) |
-| ![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)   | ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white)          | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white) | ![Zod](https://img.shields.io/badge/Zod-3E67B1?style=flat&logo=zod&logoColor=white)                      |
-| ![EJS](https://img.shields.io/badge/EJS-B4CA65?style=flat&logo=ejs&logoColor=black)               |                                                                                                             | ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat&logo=render&logoColor=white)                        | ![ESLint](https://img.shields.io/badge/ESLint-4B32C3?style=flat&logo=eslint&logoColor=white)             |
+| Backend Core                                                                                      | Database                                                                                                      | DevOps & CI/CD                                                                                                      | Security & Performance                                                                                   |
+| :------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------- |
+| ![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white) | ![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-47A248?style=flat&logo=mongodb&logoColor=white)   | ![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white)                        | ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white) |
+| ![Express](https://img.shields.io/badge/Express-000000?style=flat&logo=express&logoColor=white)   | ![Mongoose](https://img.shields.io/badge/Mongoose-880000?style=flat&logo=mongoose&logoColor=white)            | ![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=githubactions&logoColor=white) | ![Zod](https://img.shields.io/badge/Zod-3E67B1?style=flat&logo=zod&logoColor=white)                      |
+| ![EJS](https://img.shields.io/badge/EJS-B4CA65?style=flat&logo=ejs&logoColor=black)               | ![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white) | ![Render](https://img.shields.io/badge/Render-46E3B7?style=flat&logo=render&logoColor=white)                        | ![Helmet](https://img.shields.io/badge/Helmet-000000?style=flat&logo=helmet&logoColor=white)             |
 
 ---
 
@@ -29,57 +47,62 @@ A professional, high-performance RESTful API for a Bookstore management system. 
 
 ### 🏗️ Architecture & Clean Code
 
-- **Modular Design**: Organized by features (**Auth, Users, Books, Authors**) for maximum maintainability.
-- **Hybrid Pattern**: A powerful combination of **REST API** for data and **MVC** (using EJS) for password recovery flows.
-- **Standardized Responses**: Consistent JSON structure across all API endpoints using custom response helpers.
+- **Modular Design**: Fully organized by features (**Auth, Users, Books, Authors**) for maximum scalability.
+- **Hybrid Pattern**: Combination of **REST API** for data exchange and **MVC** (using EJS & Tailwind) for user workflows.
+- **Service Layer**: Business logic is decoupled from controllers using a standardized **Result Object Pattern**.
+- **Global Data Transformation**: Automated MongoDB `_id` to `id` transformation via a custom global plugin.
 
 ### 🔐 Security & Reliability
 
-- **Rate Limiting & Protection**: Protects against DDoS/Brute-force via `express-rate-limit`, `hpp`, and `helmet`.
-- **Authentication**: Secure JWT-based auth with specialized middlewares for Admin and Account Owners.
-- **Data Integrity**: Strict request validation using **Zod** schemas.
+- **Production Hardening**: Protected by `helmet`, `hpp`, and `compression`.
+- **Rate Limiting**: Throttling requests per IP to prevent DDoS and Brute-force attacks.
+- **Authentication**: Secure JWT-based auth with Role-Based Access Control (RBAC).
+- **Validation**: Strict schema validation using **Zod** for both Body and Query parameters.
 
-### ⚡ Performance Optimization
+### ⚡ Performance & Automation
 
-- **Payload Compression**: Uses Gzip compression to speed up data transfer.
-- **Smart Querying**: Built-in support for Pagination, Filtering, and MongoDB Population.
-
----
-
-## 📸 API Documentation Preview
-
-The API is fully documented using **Swagger/OpenAPI 3.0** with modular YAML definitions. You can test Admin features using the credentials provided in the Swagger UI description.
-
-![Swagger UI Preview](./assets/swagger-ui.png)
+- **CI/CD Pipeline**: Fully automated **GitHub Actions** that build and push Docker images to **Docker Hub** on every main push.
+- **Optimized Queries**: Advanced Pagination and Filtering helper using `Promise.all` for parallel database execution.
+- **Multi-stage Docker**: Extremely small and secure production images using Alpine Linux.
 
 ---
 
-## 🚀 Installation & Running
+## 🚀 Getting Started
 
-### 🐳 Using Docker (Recommended)
+### 🐳 Run with Docker (The Easiest Way)
+
+Launch the entire environment (API + Database) with a single command:
 
 ```bash
-# 1. Clone & Setup .env
+# 1. Clone the repository
 git clone https://github.com/HossamGezo/ts-bookstore-api-v2.git
 cd ts-bookstore-api-v2
 
-# 2. Run with one command
-docker-compose up
+# 2. Setup your environment variables
+cp .env.example .env
+
+# 3. Start the application
+docker-compose up -d
 ```
 
-### 💻 Local Development Setup
+### 💻 Local Development
 
-1. **Install dependencies**: `npm install`
-2. **Choose your mode**:
-   - **`npm run dev`**: Start the **API** development server.
-   - **`npm run mvc`**: Start the **Full Stack** development (API + Tailwind CSS Watcher + Views).
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start dev server with type checking and tailwind watch
+npm run dev
+# OR for MVC development:
+npm run mvc
+```
 
 ---
 
 ## 📂 Internal Resources
 
 - 📊 **Roadmap**: Check [TODO.md](./TODO.md) for future features.
-- 📓 **Engineering Notes**: Detailed troubleshooting and technical decisions in [DEV_NOTES.md](./DEV_NOTES.md).
+- 📓 **Engineering Notes**: Detailed technical decisions and troubleshooting in [DEV_NOTES.md](./DEV_NOTES.md).
 
 ---
 
@@ -92,4 +115,4 @@ docker-compose up
 
 ---
 
-_This project is licensed under the MIT License._
+_Developed with focus on Clean Architecture and Modern DevOps Practices._
