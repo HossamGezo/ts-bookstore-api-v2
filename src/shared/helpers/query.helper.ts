@@ -35,10 +35,23 @@ export const queryOperations = async <T>(
     model.countDocuments(filter),
   ]);
 
+  const totalPages = Math.ceil(totalItems / limit);
+
+  if (page > totalPages && totalItems > 0) {
+    return {
+      success: false,
+      statusCode: 404,
+      message: `Page ${page} not found. Total pages available: ${totalPages}`,
+    };
+  }
+
   return {
-    items,
-    totalItems,
-    currentPage: page,
-    totalPages: Math.ceil(totalItems / limit),
+    success: true,
+    data: {
+      items,
+      totalItems,
+      currentPage: page,
+      totalPages,
+    },
   };
 };

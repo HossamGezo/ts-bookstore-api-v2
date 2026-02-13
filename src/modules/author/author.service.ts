@@ -21,7 +21,7 @@ export const getAllAuthorsService = async (queryParams: AuthorQueryDto) => {
     limit,
     sort: { firstName: 1 },
   });
-  return successResponse(result);
+  return result;
 };
 
 // --- Get Author By Id Service

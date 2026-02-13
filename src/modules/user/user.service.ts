@@ -20,7 +20,7 @@ export const getAllUsersService = async (queryParams: UserQueryDto) => {
   const { page } = queryParams;
   const limit = Number(process.env.USERS_PER_PAGE) || 5;
   const result = await queryOperations(User, { page: page || 1, limit });
-  return successResponse(result);
+  return result;
 };
 
 // --- Get User By Id Service

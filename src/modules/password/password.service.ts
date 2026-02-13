@@ -24,12 +24,12 @@ export const sendForgotPasswordLinkService = async (data: EmailSchemaDto) => {
 
   // --- Token
   const secret = process.env.JWT_SECRET_KEY! + user.password;
-  const token = jwt.sign({ id: user._id, email: user.email }, secret, {
+  const token = jwt.sign({ id: user.id, email: user.email }, secret, {
     expiresIn: (process.env.PASSWORD_RESET_EXPIRES_IN! as any) || "10m",
   });
 
   // --- Link
-  const link = `${process.env.BASE_URL}/password/reset-password/${user._id}/${token}`;
+  const link = `${process.env.BASE_URL}/password/reset-password/${user.id}/${token}`;
 
   /* 
       1. First Solution

@@ -36,7 +36,7 @@ const seedBooks = async () => {
       );
       return {
         ...book,
-        authorId: author?._id,
+        authorId: author?.id,
       };
     });
 

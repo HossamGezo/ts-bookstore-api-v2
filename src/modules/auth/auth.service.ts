@@ -36,7 +36,7 @@ export const registerUserService = async (data: UserRegisterDto) => {
 
   // --- Generate Token
   const token = jwt.sign(
-    { id: newUser._id, isAdmin: newUser.isAdmin },
+    { id: newUser.id, isAdmin: newUser.isAdmin },
     process.env.JWT_SECRET_KEY!,
     { expiresIn: (process.env.JWT_EXPIRES_IN! as any) || "30d" },
   );
@@ -68,7 +68,7 @@ export const loginUserService = async (data: UserLoginDto) => {
 
   // --- Generate Token
   const token = jwt.sign(
-    { id: user._id, isAdmin: user.isAdmin },
+    { id: user.id, isAdmin: user.isAdmin },
     process.env.JWT_SECRET_KEY!,
     { expiresIn: (process.env.JWT_EXPIRES_IN! as any) || "30d" },
   );

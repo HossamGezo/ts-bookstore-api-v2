@@ -37,7 +37,7 @@ export const getAllBooksService = async (queryParams: BookQueryDto) => {
     filter,
     populate,
   });
-  return successResponse(result);
+  return result;
 };
 
 // --- Get Book By Id Service
