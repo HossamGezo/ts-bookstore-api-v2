@@ -1,27 +1,32 @@
-# Base Image
-FROM node:22.14.0-alpine
-
-# Working Dir
+# Stage 1: Build Stage (Builder)
+FROM node:22.14.0-alpine AS builder
 WORKDIR /app
-
-# Copy Packages
 COPY package*.json ./
-
-# Install Dependencies
-RUN npm install
-
-# Copy Source Code
+RUN npm install --ignore-scripts
 COPY . .
-
-# Build Tailwind CSS
-RUN npm run tailwind:build
-
-# Build Typescript
 RUN npm run build
 
-# Expose Server Port
+# Stage 2: Production Stage (Final Image)
+FROM node:22.14.0-alpine
+WORKDIR /app
+ENV NODE_ENV=production
+COPY package*.json ./
+RUN npm install --omit=dev --ignore-scripts
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/views ./views
+COPY --from=builder /app/src/modules ./src/modules
+RUN find ./src/modules -name "*.ts" -type f -delete
 EXPOSE 5001
 
-# Start App
-CMD ["npm", "start"]
+CMD ["node", "dist/index.js"]
 
+# --- For Mac (Apple Silicon) – build image compatible with linux/amd64
+# docker build --platform linux/amd64 -t bookstore-api .
+
+# --- Tag & Push image Docker Hub
+# docker tag bookstore-api hossamgezo/bookstore-api:v2
+# docker push hossamgezo/bookstore-api:v2
+
+# --- Image URL (for Render deployment)
+# Render : docker.io/hossamgezo/bookstore-api:v2

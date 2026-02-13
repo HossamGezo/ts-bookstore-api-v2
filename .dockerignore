@@ -16,7 +16,11 @@ docker-compose*
 
 # Version control
 .git
+.github
 
 # Logs and debug files
 npm-debug.log*
 *.tsbuildinfo
+
+# Husky
+.husky

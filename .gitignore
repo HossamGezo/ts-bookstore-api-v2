@@ -137,3 +137,11 @@ dist
 # Vite logs files
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# --- Custom Project Ignored Files ---
+
+# Tailwind CSS generated output
+public/styles/output.css
+
+# Husky internal directory
+.husky/_/
