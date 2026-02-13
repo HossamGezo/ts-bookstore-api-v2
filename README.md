@@ -68,6 +68,45 @@ _Click the image to test the API endpoints live._
 
 ---
 
+## 🔌 API Endpoints Overview
+
+For a detailed interactive guide and to test the endpoints live, please visit our [Swagger Documentation](https://bookstore-api-0fy2.onrender.com/api-docs).
+
+### 🔑 Auth (Authentication)
+- `POST /api/auth/register` - Register a new user.
+- `POST /api/auth/login` - Authenticate user and receive a JWT.
+
+### 👤 User (Administration)
+- `GET /api/users` - List all users (Admin only).
+- `GET /api/users/{id}` - Get user details (Owner or Admin).
+- `PUT /api/users/{id}` - Update user profile.
+- `DELETE /api/users/{id}` - Delete user account.
+
+### 🔐 Password (Recovery - MVC)
+- `GET /password/forgot-password` - Render forgot password view.
+- `POST /password/forgot-password` - Send reset password link via email.
+- `GET /password/reset-password/{id}/{token}` - Render reset password form.
+- `POST /password/reset-password/{id}/{token}` - Set a new password in the database.
+
+### ✍️ Author (Profiles)
+- `GET /api/authors` - Get all authors with pagination.
+- `POST /api/authors` - Create a new author (Admin only).
+- `GET /api/authors/{id}` - Get author by ID.
+- `PUT /api/authors/{id}` - Update author details (Admin only).
+- `DELETE /api/authors/{id}` - Delete author by ID (Admin only).
+
+### 📚 Book (Catalog Management)
+- `GET /api/books` - Get all books (with Pagination & Price Filtering).
+- `POST /api/books` - Create a new book (Admin only).
+- `GET /api/books/{id}` - Get book details (Populated with Author).
+- `PUT /api/books/{id}` - Update book details (Admin only).
+- `DELETE /api/books/{id}` - Delete book by ID (Admin only).
+
+### 📂 Upload (Storage Services)
+- `POST /api/upload` - Upload a single image using Multer.
+
+---
+
 ## 🚀 Getting Started
 
 ### 🐳 Run with Docker
