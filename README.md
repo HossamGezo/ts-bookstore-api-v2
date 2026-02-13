@@ -1,7 +1,5 @@
 # 📚 Bookstore API (V2)
 
-# 📚 Bookstore API (V2)
-
 [![Build Status](https://img.shields.io/github/actions/workflow/status/HossamGezo/ts-bookstore-api-v2/deploy.yml?branch=main&style=for-the-badge&logo=github&logoColor=white)](https://github.com/HossamGezo/ts-bookstore-api-v2/actions)
 [![Website Status](https://img.shields.io/website?down_color=red&down_message=down&label=Render&logo=render&logoColor=white&style=for-the-badge&up_color=46E3B7&up_message=up&url=https%3A%2F%2Fbookstore-api-0fy2.onrender.com)](https://bookstore-api-0fy2.onrender.com)
 [![DB Status](https://img.shields.io/badge/MongoDB_Atlas-Live-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
