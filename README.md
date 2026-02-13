@@ -87,7 +87,7 @@ npm run mvc  # Start API + Tailwind + Views
 
 ---
 
-## 👤 Author
+## 👨‍💻 Author
 
 **Hossam Gezo**
 
